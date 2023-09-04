@@ -1,0 +1,18 @@
+.nav{
+	grid-area: nav;
+	background-color: rgb(247, 224, 189);
+	}
+.item {
+}
+ul li{
+	color: rgb(101, 42, 238);
+	min-width: 100px;
+}
+li:first-child{
+	margin-top: 16px;
+}
+a{
+	font-size: 24px;
+	display: flex;
+	justify-content: center;
+}	
