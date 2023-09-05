@@ -10,10 +10,6 @@
 }
 .dialog {
 }
-.dialog .active {
-	color: brown;
-}
-
 .messages {
 	padding: 10px;
 }

@@ -6,6 +6,7 @@ const MyPosts = () => {
   return (
 	<div>
 	<NewPost/>
+	
 	<div>
 		<Post text='Hello' like='23'/>
 		<Post text='Moto Moto' like='2'/>

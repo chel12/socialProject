@@ -13,4 +13,4 @@ const Post = ({text,like}) => {
   )
 }
 
-export default Post
+export default Posts
