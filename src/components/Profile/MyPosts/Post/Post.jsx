@@ -4,7 +4,7 @@ const Post = ({ text, like }) => {
 	return (
 		<div className={classes.item}>
 			<img src="https://clck.ru/MqPbZ"></img>
-			{text}
+			<div className={classes.text}>{text}</div>
 			<div className={classes.like}>like: {like}</div>
 		</div>
 	);
