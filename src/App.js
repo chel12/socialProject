@@ -1,11 +1,10 @@
 import './App.css';
 import Header from './components/Header/Header';
-import Nav from './components/Navbar/Navbar';
-import Content from './components/Profile/Profile';
 import Dialogs from './components/Dialogs/Dialogs';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Profile from './components/Profile/Profile';
 import Navbar from './components/Navbar/Navbar';
+
 function App(props) {
 	return (
 		<BrowserRouter>
@@ -17,15 +16,12 @@ function App(props) {
 						<Route
 							path="/dialogs"
 							element={
-								<Dialogs
-									dialogsData={props.dialogsData}
-									messagesData={props.messagesData}
-								/>
+								<Dialogs state={props.state.dialogsPage} />
 							}></Route>
 						<Route
 							path="/profile"
 							element={
-								<Profile postData={props.postData} />
+								<Profile state={props.state.profilePage} />
 							}></Route>
 					</Routes>
 				</div>
