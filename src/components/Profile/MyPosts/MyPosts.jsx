@@ -8,14 +8,14 @@ const MyPosts = () => {
 		{ id: 2, message: 'Moto Moto', likeCount: 12 },
 		{ id: 3, message: 'Ahaha,cool', likeCount: 22 },
 	];
+	let postElements = postData.map((el) => (
+		<Post text={el.message} like={el.likeCount} id={el.id} />
+	));
 	return (
 		<div>
 			<NewPost />
 
-			<div>
-				<Post text="Hello" like="23" />
-				<Post text="Moto Moto" like="2" />
-			</div>
+			<div>{postElements}</div>
 		</div>
 	);
 };
