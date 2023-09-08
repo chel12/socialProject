@@ -10,9 +10,7 @@ const MyPosts = (props) => {
 	let newPostElement = React.createRef();
 	//добавляем значения из текстареа и обнуляем текстареа
 	let addPost = () => {
-		let text = newPostElement.current.value;
-		props.addPost(text);
-		newPostElement.current.value =''
+		props.addPost();
 	};
 let onPostChange = ()=>{
 let text = newPostElement.current.value
