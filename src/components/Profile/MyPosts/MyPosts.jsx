@@ -1,25 +1,32 @@
 import React from 'react';
 import classes from './MyPost.module.css';
 import Post from './Post/Post';
-
+//перебор элементов массива и вывод их
 const MyPosts = (props) => {
 	let postElements = props.postData.map((el) => (
 		<Post text={el.message} like={el.likeCount} id={el.id} />
 	));
+	//ссылочку делаем на значения
+	let newPostElement = React.createRef();
+	//добавляем значения из текстареа и обнуляем текстареа
 	let addPost = () => {
 		let text = newPostElement.current.value;
 		props.addPost(text);
 		newPostElement.current.value =''
 	};
-	let newPostElement = React.createRef();
+let onPostChange = ()=>{
+let text = newPostElement.current.value
+props.updateNewPostText(text)
+}
+
 	return (
 		<div>
 			<div className={classes.newPost}>
 				<div>
 					<textarea
+					onChange={onPostChange}
 						ref={newPostElement}
-						name=""
-						id=""
+						value={props.newPostText}
 						cols="60"
 						rows="5"></textarea>
 				</div>
