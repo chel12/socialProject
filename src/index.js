@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes } from "react-router-dom";
-import state, { addPost, subscribe, updateNewPostText } from "./redux/state";
+import store from "./redux/state";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 let rerenderEntireTree = (state) => {
   root.render(
@@ -12,13 +12,15 @@ let rerenderEntireTree = (state) => {
       <BrowserRouter>
         <App
           state={state}
-          addPost={addPost}
-          updateNewPostText={updateNewPostText}
+          dispatch={store.dispatch.bind(store)}
         />
       </BrowserRouter>
     </React.StrictMode>
   );
 };
-rerenderEntireTree(state);
-subscribe(rerenderEntireTree);
+rerenderEntireTree(store.getState());
+store.subscribe(rerenderEntireTree);
 reportWebVitals();
+//сеттер метод который устанав значения какому-то свойству
+//_content - нельзя менять(олд договороенность)
+//поэтому для этого используют сеттер и геттер
