@@ -13,6 +13,7 @@ let rerenderEntireTree = (state) => {
         <App
           state={state}
           dispatch={store.dispatch.bind(store)}
+          store={store}
         />
       </BrowserRouter>
     </React.StrictMode>
@@ -24,3 +25,5 @@ reportWebVitals();
 //сеттер метод который устанав значения какому-то свойству
 //_content - нельзя менять(олд договороенность)
 //поэтому для этого используют сеттер и геттер
+//bind() - забинтить то есть привзять this к главному родителю, если это не сделать
+//то при пропсах появиться undefined

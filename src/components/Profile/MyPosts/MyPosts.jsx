@@ -1,7 +1,10 @@
 import React from 'react';
 import classes from './MyPost.module.css';
 import Post from './Post/Post';
+import { addPostActionCreator, updateNewPostTextActionCreator } from '../../../redux/state';
 //перебор элементов массива и вывод их
+
+
 const MyPosts = (props) => {
 	let postElements = props.postData.map((el) => (
 		<Post text={el.message} like={el.likeCount} id={el.id} />
@@ -10,12 +13,12 @@ const MyPosts = (props) => {
 	let newPostElement = React.createRef();
 	//добавляем значения из текстареа и обнуляем текстареа
 	let addPost = () => {
-		props.dispatch({type:'ADD-POST'});
+		props.dispatch(addPostActionCreator());
 		newPostElement.current.value=""
 	};
 let onPostChange = ()=>{
 	let text = newPostElement.current.value
-	let action = {type:'UPDATE-NEW-POST-TEXT', newText:text} //для удобства можно делать ТАК
+	let action = updateNewPostTextActionCreator(text) //для удобства можно делать ТАК
 	props.dispatch(action)
 }
 
