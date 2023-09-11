@@ -1,9 +1,11 @@
 import React from 'react';
 import classes from './MyPost.module.css';
 import Post from './Post/Post';
-import { addPostActionCreator, updateNewPostTextActionCreator } from '../../../redux/state';
+import {
+	addPostActionCreator,
+	updateNewPostTextActionCreator,
+} from '../../../redux/profileReducer';
 //перебор элементов массива и вывод их
-
 
 const MyPosts = (props) => {
 	let postElements = props.postData.map((el) => (
@@ -14,20 +16,20 @@ const MyPosts = (props) => {
 	//добавляем значения из текстареа и обнуляем текстареа
 	let addPost = () => {
 		props.dispatch(addPostActionCreator());
-		newPostElement.current.value=""
+		newPostElement.current.value = '';
 	};
-let onPostChange = ()=>{
-	let text = newPostElement.current.value
-	let action = updateNewPostTextActionCreator(text) //для удобства можно делать ТАК
-	props.dispatch(action)
-}
+	let onPostChange = () => {
+		let text = newPostElement.current.value;
+		let action = updateNewPostTextActionCreator(text); //для удобства можно делать ТАК
+		props.dispatch(action);
+	};
 
 	return (
 		<div>
 			<div className={classes.newPost}>
 				<div>
 					<textarea
-					onChange={onPostChange}
+						onChange={onPostChange}
 						ref={newPostElement}
 						value={props.newPostText}
 						cols="60"
