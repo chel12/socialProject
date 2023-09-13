@@ -49,7 +49,7 @@ let store = {
 	//     this._state.profilePage.newPostText = newText;
 	//     this._callSubscriber(this._state);
 	//   },
-	subscribe(observer) {
+	subscribe(observer) { 
 		this._callSubscriber = observer; //observer наблюдатель(патрон)
 		//publisher-subscriber//addEventListener
 		//патрон это наблюдатель который смотрит за обьектом и уведомляет если что-то произошло
