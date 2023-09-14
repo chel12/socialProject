@@ -1,29 +1,21 @@
 import React from 'react';
 import classes from './MyPost.module.css';
 import Post from './Post/Post';
-import {
-	addPostActionCreator,
-	updateNewPostTextActionCreator,
-} from '../../../redux/profileReducer';
-//перебор элементов массива и вывод их
 
 const MyPosts = (props) => {
-	let postElements = props.postData.map((el) => (
+	let postElements = props.post.map((el) => (
 		<Post text={el.message} like={el.likeCount} id={el.id} />
 	));
 	//ссылочку делаем на значения
 	let newPostElement = React.createRef();
 	//добавляем значения из текстареа и обнуляем текстареа
-	let addPost = () => {
-		// props.dispatch(addPostActionCreator());
+	let onAddPost = () => {
 		props.addPost();
-		newPostElement.current.value = '';
 	};
 	let onPostChange = () => {
 		let text = newPostElement.current.value;
 		props.updateNewPostElement(text);
-		// let action = updateNewPostTextActionCreator(text); //для удобства можно делать ТАК
-		// props.dispatch(action);
+		
 	};
 
 	return (
@@ -34,11 +26,10 @@ const MyPosts = (props) => {
 						onChange={onPostChange}
 						ref={newPostElement}
 						value={props.newPostText}
-						cols="60"
-						rows="5"></textarea>
+						></textarea>
 				</div>
 				<div>
-					<button onClick={addPost}>Add post</button>
+					<button onClick={onAddPost}>Add post</button>
 				</div>
 			</div>
 			<div className={classes.posts}>{postElements}</div>
