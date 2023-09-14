@@ -15,13 +15,15 @@ const MyPosts = (props) => {
 	let newPostElement = React.createRef();
 	//добавляем значения из текстареа и обнуляем текстареа
 	let addPost = () => {
-		props.dispatch(addPostActionCreator());
+		// props.dispatch(addPostActionCreator());
+		props.addPost();
 		newPostElement.current.value = '';
 	};
 	let onPostChange = () => {
 		let text = newPostElement.current.value;
-		let action = updateNewPostTextActionCreator(text); //для удобства можно делать ТАК
-		props.dispatch(action);
+		props.updateNewPostElement(text);
+		// let action = updateNewPostTextActionCreator(text); //для удобства можно делать ТАК
+		// props.dispatch(action);
 	};
 
 	return (
