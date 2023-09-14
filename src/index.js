@@ -1,29 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes } from 'react-router-dom';
-import store from './redux/redux-store';
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import store from "./redux/redux-store";
+import StoreContext, { Provider } from "./storeContext";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 let rerenderEntireTree = (state) => {
-	root.render(
-		<React.StrictMode>
-			<BrowserRouter>
-				<App
-					state={state}
-					dispatch={store.dispatch.bind(store)}
-					store={store}
-				/>
-			</BrowserRouter>
-		</React.StrictMode>
-	);
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
 };
 rerenderEntireTree(store.getState());
 
 store.subscribe(() => {
-	let state = store.getState();
-	rerenderEntireTree(state);
+  let state = store.getState();
+  rerenderEntireTree(state);
 });
 reportWebVitals();
 //сеттер метод который устанав значения какому-то свойству

@@ -2,7 +2,6 @@ import "./App.css";
 import React from "react";
 import { Route, Routes } from "react-router";
 import Header from "./components/Header/Header";
-import Dialogs from "./components/Dialogs/Dialogs";
 import Profile from "./components/Profile/Profile";
 import Navbar from "./components/Navbar/Navbar";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
@@ -16,11 +15,11 @@ function App(props) {
         <Routes>
           <Route
             path="/dialogs"
-            element={<DialogsContainer store={props.store} />}
+            element={<DialogsContainer  />}
           ></Route>
           <Route
             path="/profile"
-            element={<Profile store={props.store} />}
+            element={<Profile  />}
           ></Route>
         </Routes>
       </div>
