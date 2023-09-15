@@ -4,7 +4,9 @@ import {
   updateNewPostTextActionCreator,
 } from "../../../redux/profileReducer";
 import MyPosts from "./MyPosts";
+import { connect } from "react-redux";
 import StoreContext from "../../../storeContext";
+import { connect } from "react-redux";
 
 const MyPostsContainer = () => {
   return (
@@ -22,13 +24,21 @@ const MyPostsContainer = () => {
           <MyPosts
             updateNewPostElement={onPostChange}
             addPost={addPost}
-            post={state.profilePage.postData}
-            newPostText={state.profilePage.newPostText}
           />
         );
       }}
     </StoreContext.Consumer>
   );
 };
+let mapStateToProps = (state) => {
+  return {
+	post:state.profilePage.postData,
+	newPostText:state.profilePage.newPostText
+  };
+};
+let mapDispatchToProps = (dispatch) => {
+  return {};
+};
+const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
 
 export default MyPostsContainer;
