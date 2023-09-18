@@ -1,5 +1,12 @@
-.userPhoto{
-	width:100px;
+.userPhoto {
+	width: 100px;
 	height: 100px;
 	border-radius: 25px;
+}
+.usersItem {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	margin: 40px;
 }
