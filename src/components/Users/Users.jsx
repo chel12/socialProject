@@ -3,15 +3,13 @@ import styles from './users.module.css';
 import axios, * as others from 'axios';
 import userPhoto from './../../img/avatar-small.jfif';
 class Users extends React.Component {
-	constructor(props) {
-		super(props);
+	componentDidMount() {
 		axios
 			.get('https://social-network.samuraijs.com/api/1.0/users')
 			.then((response) => {
 				this.props.setUsers(response.data.items);
 			});
 	}
-
 	render() {
 		return (
 			<div>
