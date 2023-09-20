@@ -4,7 +4,7 @@ import preloader from "../../../img/spinner.svg";
 const Preloader = () => {
   return (
     <div>
-      <img src={preloader} />{" "}
+      <img src={preloader} />
     </div>
   );
 };
