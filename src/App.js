@@ -15,7 +15,9 @@ function App(props) {
       <div className="app-wrapper-conten">
         <Routes>
           <Route path="/dialogs" element={<DialogsContainer />}></Route>
-          <Route path="/profile/*" element={<ProfileContainer />}></Route>
+          <Route path="/profile" element={<ProfileContainer />}>
+            <Route path=":userId" element={<ProfileContainer />} />
+          </Route>
           <Route path="/users" element={<UsersContainer />}></Route>
         </Routes>
       </div>
