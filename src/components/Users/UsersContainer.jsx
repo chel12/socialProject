@@ -1,66 +1,70 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Users from './Users';
-import axios, * as others from 'axios';
+import React from "react";
+import { connect } from "react-redux";
+import Users from "./Users";
+import axios, * as others from "axios";
 import {
-	follow,
-	setCurrentPage,
-	setUsers,
-	setUsersTotalCount,
-	toggleIsFetching,
-	unfollow,
-} from '../../redux/usersReducer';
-import Preloader from '../common/Preloader/Preloader';
-import { getUsers, usersAPI } from '../../api/api';
+  follow,
+  setCurrentPage,
+  setUsers,
+  setUsersTotalCount,
+  toggleIsFetching,
+  unfollow,
+  toggleFollowingProgress,
+} from "../../redux/usersReducer";
+import Preloader from "../common/Preloader/Preloader";
+import { getUsers, usersAPI } from "../../api/api";
 class UsersContainer extends React.Component {
-	componentDidMount() {
-		this.props.toggleIsFetching(true);
-		usersAPI
-			.getUsers(this.props.currentPage, this.props.pageSize)
-			.then((data) => {
-				this.props.toggleIsFetching(false);
-				this.props.setUsers(data.items);
-				this.props.setUsersTotalCount(data.totalCount);
-			});
-	}
-	onPageChanged = (pageNumber) => {
-		this.props.setCurrentPage(pageNumber);
-		this.props.toggleIsFetching(true);
+  componentDidMount() {
+    this.props.toggleIsFetching(true);
+    usersAPI
+      .getUsers(this.props.currentPage, this.props.pageSize)
+      .then((data) => {
+        this.props.toggleIsFetching(false);
+        this.props.setUsers(data.items);
+        this.props.setUsersTotalCount(data.totalCount);
+      });
+  }
+  onPageChanged = (pageNumber) => {
+    this.props.setCurrentPage(pageNumber);
+    this.props.toggleIsFetching(true);
 
-		usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
-			this.props.toggleIsFetching(false);
-			this.props.setUsers(data.items);
-		});
-	};
-	render() {
-		return (
-			<>
-				{this.props.isFetching ? (
-					<Preloader />
-				) : (
-					<Users
-						setUsersTotalCount={this.props.setUsersTotalCount}
-						pageSize={this.props.pageSize}
-						currentPage={this.props.currentPage}
-						onPageChanged={this.onPageChanged}
-						users={this.props.users}
-						unfollow={this.props.unfollow}
-						follow={this.props.follow}
-					/>
-				)}
-			</>
-		);
-	}
+    usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
+      this.props.toggleIsFetching(false);
+      this.props.setUsers(data.items);
+    });
+  };
+  render() {
+    return (
+      <>
+        {this.props.isFetching ? (
+          <Preloader />
+        ) : (
+          <Users
+            setUsersTotalCount={this.props.setUsersTotalCount}
+            pageSize={this.props.pageSize}
+            currentPage={this.props.currentPage}
+            onPageChanged={this.onPageChanged}
+            users={this.props.users}
+            unfollow={this.props.unfollow}
+            follow={this.props.follow}
+            toggleFollowingProgress={this.props.toggleFollowingProgress}
+            followingInProgress={this.props.followingInProgress}
+          />
+        )}
+      </>
+    );
+  }
 }
 
 let mapStateToProps = (state) => {
-	return {
-		users: state.usersPage.users,
-		pageSize: state.usersPage.pageSize,
-		setUsersTotalCount: state.usersPage.setUsersTotalCount,
-		currentPage: state.usersPage.currentPage,
-		isFetching: state.usersPage.isFetching,
-	};
+  return {
+    users: state.usersPage.users,
+    pageSize: state.usersPage.pageSize,
+    setUsersTotalCount: state.usersPage.setUsersTotalCount,
+    currentPage: state.usersPage.currentPage,
+    isFetching: state.usersPage.isFetching,
+    followingInProgress: state.usersPage.followingInProgress,
+  };
 };
 
 // let mapDispatchToProps = (dispatch) => {
@@ -87,10 +91,11 @@ let mapStateToProps = (state) => {
 // };
 
 export default connect(mapStateToProps, {
-	follow,
-	unfollow,
-	setUsers,
-	setCurrentPage,
-	setUsersTotalCount,
-	toggleIsFetching,
+  follow,
+  unfollow,
+  setUsers,
+  setCurrentPage,
+  setUsersTotalCount,
+  toggleIsFetching,
+  toggleFollowingProgress,
 })(UsersContainer);
