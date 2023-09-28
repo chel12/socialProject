@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./users.module.css";
 import { NavLink } from "react-router-dom";
 import axios, * as others from "axios";
+import { usersAPI } from "../../api/api";
 let Users = (props) => {
   //   let pagesCount = Math.ceil(props.setUsersTotalCount / props.pageSize);
   let pages = [];
@@ -46,20 +47,12 @@ let Users = (props) => {
                   disabled={props.followingInProgress.some((id) => id === u.id)}
                   onClick={() => {
                     props.toggleFollowingProgress(true, u.id);
-                    axios
-                      .delete(
-                        `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-
-                        {
-                          withCredentials: true,
-                        }
-                      )
-                      .then((response) => {
-                        if (response.data.resultCode === 0) {
-                          props.unfollow(u.id);
-                        }
-                        props.toggleFollowingProgress(false, u.id);
-                      });
+                    usersAPI.unfollow(u.id).then((response) => {
+                      if (response.data.resultCode === 0) {
+                        props.unfollow(u.id);
+                      }
+                      props.toggleFollowingProgress(false, u.id);
+                    });
                   }}
                 >
                   Unfollow
@@ -69,20 +62,12 @@ let Users = (props) => {
                   disabled={props.followingInProgress.some((id) => id === u.id)}
                   onClick={() => {
                     props.toggleFollowingProgress(true, u.id);
-                    axios
-                      .post(
-                        `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-                        {},
-                        {
-                          withCredentials: true,
-                        }
-                      )
-                      .then((response) => {
-                        if (response.data.resultCode === 0) {
-                          props.follow(u.id);
-                        }
-                        props.toggleFollowingProgress(false, u.id);
-                      });
+                    usersAPI.follow(u.id).then((response) => {
+                      if (response.data.resultCode === 0) {
+                        props.follow(u.id);
+                      }
+                      props.toggleFollowingProgress(false, u.id);
+                    });
                   }}
                 >
                   Follow
