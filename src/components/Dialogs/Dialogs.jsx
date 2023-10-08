@@ -3,27 +3,8 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import classes from "./Dialogs.module.css";
 import { Navigate } from "react-router";
-import { Field, reduxForm } from "redux-form";
+import AddMessageFormRedux from "./../Dialogs/AddMessageForm/AddMessageForm";
 
-const AddMessageForm = (props) => {
-  return (
-    <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field
-          component={"textarea"}
-          name="newMessageBody"
-          placeholder="Enter your message"
-        ></Field>
-      </div>
-      <div>
-        <button>Send</button>
-      </div>
-    </form>
-  );
-};
-const AddMessageFormRedux = reduxForm({
-  form: "dialogAddMessageForm",
-})(AddMessageForm);
 const Dialogs = (props) => {
   let state = props.dialogsPage;
   let dialogsElements = state.dialogsData.map((el) => (
@@ -36,7 +17,7 @@ const Dialogs = (props) => {
     props.sendMessage(values.newMessageBody);
   };
   let newMessageBody = state.newMessageBody;
-  
+
   if (!props.isAuth) return <Navigate to="/login" />;
   return (
     <div className={classes.dialogs}>
