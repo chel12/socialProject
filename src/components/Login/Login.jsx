@@ -2,6 +2,7 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { Input } from "../common/FormsControl/FormsControls";
 import { required } from "../../utils/validators/validators";
+import { connect } from "react-redux";
 
 const LoginForm = (props) => {
   return (
@@ -50,4 +51,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default connect()(Login);
