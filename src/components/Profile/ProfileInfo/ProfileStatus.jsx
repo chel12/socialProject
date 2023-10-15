@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./ProfileInfo.module.css";
+import { useState } from "react";
 class ProfileStatus extends React.Component {
   state = {
     editMode: false,
