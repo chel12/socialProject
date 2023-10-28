@@ -14,6 +14,7 @@ let Paginator = ({
 	return (
 		<div>
 			{pages.map((p) => {
+
 				return (
 					<span
 						onClick={(e) => {

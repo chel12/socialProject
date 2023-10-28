@@ -50,11 +50,6 @@ const profileReducer = (state = initialState, action) => {
 			return state;
 	}
 };
-//Экшен Креатор функция-> возвращает обьект (action)
-//(action) это обьект в который инкапсулированы все данные, для того чтобы
-//редьюсер получил эти данные и применил изменения на state свой
-//({type: SET_USER_PROFILE -- какое действие
-// profile и где взять
 
 export const addPostActionCreator = (newPostText) => ({
 	type: ADD_POST,
