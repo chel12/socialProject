@@ -1,26 +1,23 @@
-import React from "react";
-import classes from "./ProfileInfo.module.css";
-import Preloader from "../../common/Preloader/Preloader";
-import ProfileStatus from "./ProfileStatus";
-import ProfileStatusHook from "./ProfileStatusHook";
-const ProfileInfo = (props) => {
-  if (!props.profile) {
-    return <Preloader />;
-  }
+import React from 'react';
+import classes from './ProfileInfo.module.css';
+import Preloader from '../../common/Preloader/Preloader';
+import ProfileStatusHook from './ProfileStatusHook';
+const ProfileInfo = ({ profile, status, updateStatus }) => {
+	if (!profile) {
+		return <Preloader />;
+	}
 
-  return (
-    <div>
-      {/* <img src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"></img> */}
-      <div className={classes.descriptionBlock}>
-        <img src={props.profile.photos.large}></img>
-        {/* <h1>{props.profile.lookingForAJobDescription}</h1> */}
-        <ProfileStatusHook
-          status={props.status}
-          updateStatus={props.updateStatus}
-        />
-      </div>
-    </div>
-  );
+	return (
+		<div>
+			<div className={classes.descriptionBlock}>
+				<img src={profile.photos.large}></img>
+				<ProfileStatusHook
+					status={status}
+					updateStatus={updateStatus}
+				/>
+			</div>
+		</div>
+	);
 };
 
 export default ProfileInfo;

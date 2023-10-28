@@ -1,0 +1,10 @@
+.selectedPage {
+	font-weight: bold;
+	color: chocolate;
+	cursor: pointer;
+	font-size: 35px;
+}
+.paginationPage {
+	font-size: 30px;
+	cursor: pointer;
+}
