@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Users from './Users';
+
 import {
 	follow,
 	setCurrentPage,
@@ -51,7 +52,6 @@ class UsersContainer extends React.Component {
 
 let mapStateToProps = (state) => {
 	return {
-
 		users: getUsers(state),
 		pageSize: getPageSize(state),
 		setUsersTotalCount: getUsersTotalCount(state),

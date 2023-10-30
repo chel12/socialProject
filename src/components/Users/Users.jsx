@@ -1,6 +1,7 @@
 import React from 'react';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
+import styles from './users.module.css';
 let Users = ({
 	currentPage,
 	onPageChanged,
@@ -10,7 +11,7 @@ let Users = ({
 	...props
 }) => {
 	return (
-		<div>
+		<div className={styles.usersContainer}>
 			<Paginator
 				currentPage={currentPage}
 				onPageChanged={onPageChanged}

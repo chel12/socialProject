@@ -2,9 +2,15 @@
 	font-weight: bold;
 	color: chocolate;
 	cursor: pointer;
-	font-size: 35px;
+	font-size: 25px;
+	border: 1px solid rgba(29, 81, 69, 0.179);
+	border-radius: 25px;
+	padding: 0 5px 2px 5px;
 }
 .paginationPage {
-	font-size: 30px;
+	font-size: 20px;
 	cursor: pointer;
+	padding: 4px;
+}
+.paginator {
 }
