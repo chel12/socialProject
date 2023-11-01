@@ -7,3 +7,7 @@
 .contacts {
 	padding-left: 1g0px;
 }
+.formSummaryError {
+	color: red;
+	font-size: 20px;
+}

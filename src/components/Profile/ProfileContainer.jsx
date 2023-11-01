@@ -5,6 +5,7 @@ import {
 	getStatus,
 	updateStatus,
 	savePhoto,
+	saveProfile,
 } from '../../redux/profileReducer';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -64,6 +65,7 @@ export default compose(
 		getStatus,
 		updateStatus,
 		savePhoto,
+		saveProfile,
 	}),
 	withRouter,
 	withAuthRedirect
