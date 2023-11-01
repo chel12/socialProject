@@ -40,6 +40,18 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
 						{profile.fullName}
 					</div>
 					<div>
+						<b>Contacts: </b>{' '}
+						{Object.keys(profile.contacts).map((key) => {
+							return (
+								<Contact
+									contactTitle={key}
+									contactValue={profile.contacts[key]}
+								/>
+							);
+						})}
+					</div>
+
+					<div>
 						<b>About me: </b>
 						{profile.aboutMe}
 					</div>
@@ -50,6 +62,14 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
 					updateStatus={updateStatus}
 				/>
 			</div>
+		</div>
+	);
+};
+
+const Contact = ({ contactTitle, contactValue }) => {
+	return (
+		<div className={classes.contacts}>
+			<b>{contactTitle}</b>: {contactValue}
 		</div>
 	);
 };
