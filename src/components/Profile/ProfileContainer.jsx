@@ -20,7 +20,7 @@ export function withRouter(Children) {
 }
 class ProfileContainer extends React.Component {
 	refreshProfile = () => {
-		let userId = this.props.match.params.userId;
+		let userId = this.props.match.params.userId; //match из визроутера ( HOC)
 		if (!userId) {
 			userId = this.props.authorizedUserId;
 			if (!userId) {
