@@ -1,6 +1,6 @@
 import './App.css';
 import React, { Suspense, lazy } from 'react';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import Navbar from './components/Navbar/Navbar';
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
 
@@ -14,13 +14,32 @@ import { connect } from 'react-redux';
 import { initializeApp } from './redux/app-reducer';
 import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
+import Page404 from './components/Pages/Page404';
 const DialogsContainer = lazy(() =>
 	import('./components/Dialogs/DialogsContainer')
 );
 class App extends React.Component {
+	catchAllUnhandledErrors = (promiseRejectionEvent) => {
+		alert('some error occured');
+		// console.error(promiseRejectionEvent);
+	};
 	componentDidMount() {
 		this.props.initializeApp();
+		window.addEventListener(
+			//sideEffect
+			'unhandledrejection',
+			this.catchAllUnhandledErrors
+		);
 	}
+
+	componentWillUnmount() {
+		window.removeEventListener(
+			//sideEffect чистка  (компонента уходит и это уборка мусора)
+			'unhandledrejection',
+			this.catchAllUnhandledErrors
+		);
+	}
+
 	render() {
 		if (!this.props.initialized) {
 			return <Preloader />;
@@ -32,6 +51,10 @@ class App extends React.Component {
 					<div className="app-wrapper-conten">
 						<Suspense fallback={<Preloader />}>
 							<Routes>
+								<Route
+									path="/"
+									element={<Navigate to="/profile" />}
+								/>
 								<Route
 									path="/dialogs"
 									element={<DialogsContainer />}></Route>
@@ -49,6 +72,7 @@ class App extends React.Component {
 								<Route
 									path="/login"
 									element={<LoginPage />}></Route>
+								<Route path="*" element={<Page404 />}></Route>
 							</Routes>
 						</Suspense>
 					</div>
