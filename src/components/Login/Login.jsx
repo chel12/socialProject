@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Input, createdField } from '../common/FormsControl/FormsControls';
 import { required } from '../../utils/validators/validators';
 import { connect } from 'react-redux';
-import { login, logout } from '../../redux/authReducer';
+import { login, logout } from '../../redux/authReducer.ts';
 import { Navigate } from 'react-router';
 const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
 	return (

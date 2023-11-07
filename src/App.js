@@ -11,7 +11,7 @@ import ProfileContainer, {
 import HeaderContainer from './components/Header/HeaderContainer';
 import LoginPage from './components/Login/Login';
 import { connect } from 'react-redux';
-import { initializeApp } from './redux/app-reducer';
+import { initializeApp } from './redux/app-reducer.ts';
 import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
 import Page404 from './components/Pages/Page404';
