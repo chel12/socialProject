@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Paginator.module.css';
+type Props = {
+	setUsersTotalCount: number;
+	pageSize: number;
+	currentPage: number;
+	onPageChanged: () => void;
+	portionSize: number;
+};
+
 let Paginator = ({
 	setUsersTotalCount,
 	pageSize,
