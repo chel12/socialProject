@@ -1,4 +1,5 @@
 import { usersAPI } from '../api/api';
+import { PhotosType, UserType } from '../types/types';
 import { updateObjectInArray } from '../utils/object-helpers';
 
 const FOLLOW = 'FOLLOW';
@@ -9,22 +10,24 @@ const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
-type InitialStateType = {
-	users: [] | any;
-	pageSize: number | null;
-	totalUsersCount: number | null;
-	currentPage: number | null;
-	isFetching: boolean;
-	followingInProgress: [] | any;
-};
+// type InitialStateType = {
+// 	users: [] | Array<UserType>;
+// 	pageSize: number | null;
+// 	totalUsersCount: number | null;
+// 	currentPage: number | null;
+// 	isFetching: boolean;
+// 	followingInProgress: [] | any;
+// };
 
-let initialState: InitialStateType = {
-	users: [],
+type InitialStateType = typeof initialState;
+
+let initialState = {
+	users: [] as Array<UserType>,
 	pageSize: 4,
 	totalUsersCount: 0,
 	currentPage: 1,
 	isFetching: true,
-	followingInProgress: [],
+	followingInProgress: [] as Array<number>, //array of users ids
 };
 
 const usersReducer = (state = initialState, action: any): InitialStateType => {
@@ -80,7 +83,7 @@ type UnfollowSuccessType = {
 };
 type SetUsersType = {
 	type: typeof SET_USERS;
-	users: [] | any;
+	users: [] | Array<UserType>;
 };
 type SetCurrentPageType = {
 	type: typeof SET_CURRENT_PAGE;
@@ -108,7 +111,7 @@ export const unfollowSuccess = (userId: number): UnfollowSuccessType => ({
 	type: UNFOLLOW,
 	userId,
 });
-export const setUsers = (users: [] | any): SetUsersType => ({
+export const setUsers = (users: [] | Array<UserType>): SetUsersType => ({
 	type: SET_USERS,
 	users,
 });

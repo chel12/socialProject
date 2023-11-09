@@ -68,7 +68,9 @@ class App extends React.Component {
 								</Route>
 								<Route
 									path="/users"
-									element={<UsersContainer />}></Route>
+									element={
+										<UsersContainer pageTitle={'Самурай'} />
+									}></Route>
 								<Route
 									path="/login"
 									element={<LoginPage />}></Route>

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Paginator.module.css';
-type Props = {
+type PropsType = {
 	setUsersTotalCount: number;
 	pageSize: number;
 	currentPage: number;
-	onPageChanged: () => void;
-	portionSize: number;
+	onPageChanged: (pageNumber: number) => void;
+	portionSize?: number;
 };
 
-let Paginator = ({
+let Paginator: React.FC<PropsType> = ({
 	setUsersTotalCount,
 	pageSize,
 	currentPage,
@@ -16,7 +16,8 @@ let Paginator = ({
 	portionSize = 10,
 }) => {
 	let pagesCount = Math.ceil(setUsersTotalCount / pageSize);
-	let pages = [];
+
+	let pages: Array<number> = [];
 	for (let i = 1; i <= pagesCount; i++) {
 		pages.push(i);
 	}
@@ -54,7 +55,8 @@ let Paginator = ({
 								currentPage === p
 									? styles.selectedPage
 									: styles.paginationPage
-							}>
+							}
+							key={p}>
 							{p}
 						</span>
 					);
