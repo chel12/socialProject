@@ -22,6 +22,10 @@ let Paginator: React.FC<PropsType> = ({
 		pages.push(i);
 	}
 	let portionCount = Math.ceil(pagesCount / portionSize);
+
+	// let [portionNumber, setPortionNumber] = useState<number | null>(null); //пример типизации хука, но если null, тогда проверку пишем и пихаем 1
+	// if (portionNumber === null) portionNumber = 1; //условие чтобы типизация не сломалась когда 0
+
 	let [portionNumber, setPortionNumber] = useState(1);
 	let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
 	let rightPortionPageNumber = portionNumber * portionSize;
