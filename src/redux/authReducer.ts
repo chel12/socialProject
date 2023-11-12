@@ -1,5 +1,10 @@
 import { stopSubmit } from 'redux-form';
-import { authAPI, securityAPI } from '../api/api';
+import {
+	authAPI,
+	ResultCodesEnum,
+	ResultCodeWithCaptcha,
+	securityAPI,
+} from '../api/api';
 
 const SET_USER_DATA = 'samura-network/auth/SET_USER_DATA';
 const GET_CAPTCHA_URL_SUCCESS = 'samura-network/auth/GET_CAPTCHA_URL_SUCCESS';
@@ -71,9 +76,9 @@ export const getCaptchaUrlSuccess = (
 });
 
 export const getAuthUserData = () => async (dispatch: any) => {
-	let response = await authAPI.me();
-	if (response.data.resultCode === 0) {
-		let { id, email, login } = response.data.data;
+	let meData = await authAPI.me();
+	if (meData.resultCode === ResultCodesEnum.Success) {
+		let { id, email, login } = meData.data;
 		dispatch(setAuthUserData(id, email, login, true));
 	}
 };
@@ -81,22 +86,24 @@ export const getAuthUserData = () => async (dispatch: any) => {
 export const login =
 	(email: string, password: string, rememberMe: boolean, captcha: any) =>
 	async (dispatch: any) => {
-		let response = await authAPI.login(
+		let loginData = await authAPI.login(
 			email,
 			password,
 			rememberMe,
 			captcha
 		);
 
-		if (response.data.resultCode === 0) {
+		if (loginData.resultCode === ResultCodesEnum.Success) {
 			dispatch(getAuthUserData());
 		} else {
-			if (response.data.resultCode === 10) {
+			if (
+				loginData.resultCode === ResultCodeWithCaptcha.CaptchaIsRequired
+			) {
 				dispatch(getCaptchaUrl());
 			}
 			let message =
-				response.data.messages.length > 0
-					? response.data.messages[0]
+				loginData.messages.length > 0
+					? loginData.messages[0]
 					: 'Some error';
 			dispatch(stopSubmit('login', { _error: message }));
 		}
