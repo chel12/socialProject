@@ -1,7 +1,11 @@
 import React from 'react';
 import style from '../common/FormsControl/FormsControls.module.css';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import { Input, createdField } from '../common/FormsControl/FormsControls.tsx';
+import {
+	Input,
+	createdField,
+	LoginFormValuesType,
+} from '../common/FormsControl/FormsControls.tsx';
 import { required } from '../../utils/validators/validators.ts';
 import { connect } from 'react-redux';
 import { login, logout } from '../../redux/authReducer.ts';
@@ -18,11 +22,21 @@ const LoginForm: React.FC<
 > = ({ handleSubmit, error, captchaUrl }) => {
 	return (
 		<form onSubmit={handleSubmit}>
-			{createdField('email', 'Email', Input, 'email', [required])}
-			{createdField('password', 'Password', Input, 'password', [
-				required,
-			])}
-			{createdField(
+			{createdField<LoginFormValuesTypeKeys>(
+				'email',
+				'Email',
+				Input,
+				'email',
+				[required]
+			)}
+			{createdField<LoginFormValuesTypeKeys>(
+				'password',
+				'Password',
+				Input,
+				'password',
+				[required]
+			)}
+			{createdField<LoginFormValuesTypeKeys>(
 				'checkbox',
 				'none',
 				'input',
@@ -32,9 +46,13 @@ const LoginForm: React.FC<
 			)}
 			{captchaUrl && <img src={captchaUrl} />}
 			{captchaUrl &&
-				createdField('input', 'Symbols from image', Input, 'captcha', [
-					required,
-				])}
+				createdField<LoginFormValuesTypeKeys>(
+					'input',
+					'Symbols from image',
+					Input,
+					'captcha',
+					[required]
+				)}
 			{error && <div className={style.formSummaryError}>{error} </div>}
 			<div>
 				<button type="submit">Login</button>
@@ -59,7 +77,9 @@ type MapDispatchPropsType = {
 	) => void;
 };
 
-type LoginFormValuesType = {
+type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>;
+
+export type LoginFormValuesType = {
 	//для отправки формочки
 	email: string;
 	password: string;

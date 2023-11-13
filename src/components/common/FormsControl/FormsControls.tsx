@@ -50,24 +50,27 @@ export const Input = ({ input, meta, props }) => {
 	);
 };
 
-export const createdField = (
+
+export function createdField<FormKeysType>(
 	type: any,
 	placeholder: string | undefined,
 	component: string | any,
-	name: string,
+	name: FormKeysType,
 	validate: Array<FieldValidatorType>,
 	props = {},
 	text = ''
-) => (
-	<div>
-		<Field
-			type={type}
-			placeholder={placeholder}
-			component={component}
-			name={name}
-			validate={validate}
-			{...props}
-		/>
-		{text}
-	</div>
-);
+) {
+	return (
+		<div>
+			<Field
+				type={type}
+				placeholder={placeholder}
+				component={component}
+				name={name}
+				validate={validate}
+				{...props}
+			/>
+			{text}
+		</div>
+	);
+}
