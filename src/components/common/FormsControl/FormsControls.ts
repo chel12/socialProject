@@ -1,8 +1,8 @@
-import React from 'react';
+
 import s from './FormsControls.module.css';
 import { Field } from 'redux-form';
 
-const FormControl = ({
+const FormControl = ({  //для ошибок 
 	input,
 	meta: { touched, error },
 	inputOrTextArea,
@@ -23,7 +23,7 @@ const FormControl = ({
 	);
 };
 
-export const TextArea = ({ input, meta, ...props }) => {
+export const TextArea = ({ input, meta, ...props }) => { //шаблон для текс ареа
 	return (
 		<FormControl
 			{...props}
@@ -35,7 +35,7 @@ export const TextArea = ({ input, meta, ...props }) => {
 	);
 };
 
-export const Input = ({ input, meta, props }) => {
+export const Input = ({ input, meta, props }) => { //шаблон для инпута 
 	return (
 		<FormControl
 			{...props}
@@ -46,7 +46,7 @@ export const Input = ({ input, meta, props }) => {
 	);
 };
 
-export const createdField = (
+export const createdField = (  
 	type,
 	placeholder,
 	component,
