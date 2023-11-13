@@ -1,9 +1,9 @@
 import { Field, reduxForm } from "redux-form";
-import { TextArea} from "../../common/FormsControl/FormsControls";
+import { TextArea} from "../../common/FormsControl/FormsControls.tsx";
 import {
   maxLengthCreator,
   required,
-} from "../../../utils/validators/validators";
+} from "../../../utils/validators/validators.ts";
 const maxLengthCreator50 = maxLengthCreator(50);
 export const AddMessageForm = (props) => {
   return (

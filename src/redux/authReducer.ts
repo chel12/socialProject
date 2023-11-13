@@ -4,7 +4,7 @@ import {
 	ResultCodesEnum,
 	ResultCodeWithCaptcha,
 	securityAPI,
-} from '../api/api';
+} from '../api/api.ts';
 
 const SET_USER_DATA = 'samura-network/auth/SET_USER_DATA';
 const GET_CAPTCHA_URL_SUCCESS = 'samura-network/auth/GET_CAPTCHA_URL_SUCCESS';

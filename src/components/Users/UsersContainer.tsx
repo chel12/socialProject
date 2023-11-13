@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Users from './Users';
+import Users from './Users.tsx';
 
 import {
 	follow,
@@ -8,7 +8,7 @@ import {
 	unfollow,
 	requestUsers,
 	toggleFollowingProgress,
-} from '../../redux/usersReducer';
+} from '../../redux/usersReducer.ts';
 import Preloader from '../common/Preloader/Preloader';
 import { compose } from 'redux';
 import {
@@ -18,7 +18,7 @@ import {
 	getPageSize,
 	getUsers,
 	getUsersTotalCount,
-} from '../../redux/users-selectors';
+} from '../../redux/users-selectors.ts';
 import { UserType } from '../../types/types';
 import { AppStateType } from '../../redux/redux-store';
 

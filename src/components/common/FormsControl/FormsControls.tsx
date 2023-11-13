@@ -1,8 +1,10 @@
-
+import React from 'react';
+import { FieldValidatorType } from '../../../utils/validators/validators';
 import s from './FormsControls.module.css';
 import { Field } from 'redux-form';
 
-const FormControl = ({  //для ошибок 
+const FormControl = ({
+	//для ошибок
 	input,
 	meta: { touched, error },
 	inputOrTextArea,
@@ -23,7 +25,8 @@ const FormControl = ({  //для ошибок
 	);
 };
 
-export const TextArea = ({ input, meta, ...props }) => { //шаблон для текс ареа
+export const TextArea = ({ input, meta, ...props }) => {
+	//шаблон для текс ареа
 	return (
 		<FormControl
 			{...props}
@@ -35,7 +38,8 @@ export const TextArea = ({ input, meta, ...props }) => { //шаблон для �
 	);
 };
 
-export const Input = ({ input, meta, props }) => { //шаблон для инпута 
+export const Input = ({ input, meta, props }) => {
+	//шаблон для инпута
 	return (
 		<FormControl
 			{...props}
@@ -46,12 +50,12 @@ export const Input = ({ input, meta, props }) => { //шаблон для инп�
 	);
 };
 
-export const createdField = (  
-	type,
-	placeholder,
-	component,
-	name,
-	validate,
+export const createdField = (
+	type: any,
+	placeholder: string,
+	component: string | React.Component | React.FC,
+	name: string,
+	validate: Array<FieldValidatorType>,
 	props = {},
 	text = ''
 ) => (

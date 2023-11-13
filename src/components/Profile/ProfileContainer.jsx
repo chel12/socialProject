@@ -6,7 +6,7 @@ import {
 	updateStatus,
 	savePhoto,
 	saveProfile,
-} from '../../redux/profileReducer';
+} from '../../redux/profileReducer.ts';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import withAuthRedirect from '../../hoc/withAuthRedirect';

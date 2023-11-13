@@ -5,8 +5,8 @@ import { Field, reduxForm } from 'redux-form';
 import {
 	maxLengthCreator,
 	required,
-} from '../../../utils/validators/validators';
-import { TextArea } from '../../common/FormsControl/FormsControls';
+} from '../../../utils/validators/validators.ts';
+import { TextArea } from '../../common/FormsControl/FormsControls.tsx';
 
 const maxLength10 = maxLengthCreator(10);
 const AddNewPostForm = (props) => {

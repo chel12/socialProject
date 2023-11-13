@@ -4,12 +4,12 @@ import { Navigate, Route, Routes } from 'react-router';
 import Navbar from './components/Navbar/Navbar';
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
 
-import UsersContainer from './components/Users/UsersContainer';
+import UsersContainer from './components/Users/UsersContainer.tsx';
 import ProfileContainer, {
 	withRouter,
 } from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
-import LoginPage from './components/Login/Login';
+import LoginPage from './components/Login/Login.tsx';
 import { connect } from 'react-redux';
 import { initializeApp } from './redux/app-reducer.ts';
 import { compose } from 'redux';
