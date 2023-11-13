@@ -52,8 +52,8 @@ export const Input = ({ input, meta, props }) => {
 
 export const createdField = (
 	type: any,
-	placeholder: string,
-	component: string | React.Component | React.FC,
+	placeholder: string | undefined,
+	component: string | any,
 	name: string,
 	validate: Array<FieldValidatorType>,
 	props = {},
