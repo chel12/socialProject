@@ -1,10 +1,9 @@
 import { stopSubmit } from 'redux-form';
+import { ResultCodesEnum, ResultCodeWithCaptcha } from '../api/api.ts';
 import {
-	authAPI,
-	ResultCodesEnum,
-	ResultCodeWithCaptcha,
-	securityAPI,
-} from '../api/api.ts';
+	authAPI
+} from '../api/auth-api.ts';
+import { securityAPI } from '../api/security-api.ts';
 
 const SET_USER_DATA = 'samura-network/auth/SET_USER_DATA';
 const GET_CAPTCHA_URL_SUCCESS = 'samura-network/auth/GET_CAPTCHA_URL_SUCCESS';
