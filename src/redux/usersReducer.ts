@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { usersAPI } from '../api/api.ts';
 import { PhotosType, UserType } from '../types/types';
 import { updateObjectInArray } from '../utils/object-helpers';
-import { AppStateType } from './redux-store';
+import { AppStateType, InferActionsTypes } from './redux-store';
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -80,81 +80,78 @@ const usersReducer = (
 };
 
 //обобщаем типы экшенов и затем в редьюсер пишем обобщённый тип
-type ActionsTypes =
-	| FollowSuccessType
-	| UnfollowSuccessType
-	| SetUsersType
-	| SetCurrentPageType
-	| SetUsersTotalCountType
-	| ToggleIsFetchingType
-	| ToggleFollowingProgressType;
+type ActionsTypes = InferActionsTypes<typeof actions>;
 
-type FollowSuccessType = {
-	type: typeof FOLLOW;
-	userId: number;
-};
-type UnfollowSuccessType = {
-	type: typeof UNFOLLOW;
-	userId: number;
-};
-type SetUsersType = {
-	type: typeof SET_USERS;
-	users: [] | Array<UserType>;
-};
-type SetCurrentPageType = {
-	type: typeof SET_CURRENT_PAGE;
-	currentPage: number;
-};
-type SetUsersTotalCountType = {
-	type: typeof SET_TOTAL_USERS_COUNT;
-	count: number;
-};
-type ToggleIsFetchingType = {
-	type: typeof TOGGLE_IS_FETCHING;
-	isFetching: boolean;
-};
-type ToggleFollowingProgressType = {
-	type: typeof TOGGLE_IS_FOLLOWING_PROGRESS;
-	isFetching: boolean;
-	userId: number;
-};
+// type FollowSuccessType = {
+// 	type: typeof FOLLOW;
+// 	userId: number;
+// };
+// type UnfollowSuccessType = {
+// 	type: typeof UNFOLLOW;
+// 	userId: number;
+// };
+// type SetUsersType = {
+// 	type: typeof SET_USERS;
+// 	users: [] | Array<UserType>;
+// };
+// type SetCurrentPageType = {
+// 	type: typeof SET_CURRENT_PAGE;
+// 	currentPage: number;
+// };
+// type SetUsersTotalCountType = {
+// 	type: typeof SET_TOTAL_USERS_COUNT;
+// 	count: number;
+// };
+// type ToggleIsFetchingType = {
+// 	type: typeof TOGGLE_IS_FETCHING;
+// 	isFetching: boolean;
+// };
+// type ToggleFollowingProgressType = {
+// 	type: typeof TOGGLE_IS_FOLLOWING_PROGRESS;
+// 	isFetching: boolean;
+// 	userId: number;
+// };
 
-export const followSuccess = (userId: number): FollowSuccessType => ({
-	type: FOLLOW,
-	userId,
-});
-export const unfollowSuccess = (userId: number): UnfollowSuccessType => ({
-	type: UNFOLLOW,
-	userId,
-});
-export const setUsers = (users: [] | Array<UserType>): SetUsersType => ({
-	type: SET_USERS,
-	users,
-});
-export const setCurrentPage = (currentPage: number): SetCurrentPageType => ({
-	type: SET_CURRENT_PAGE,
-	currentPage,
-});
-export const setUsersTotalCount = (
-	totalUsersCount: number
-): SetUsersTotalCountType => ({
-	type: SET_TOTAL_USERS_COUNT,
-	count: totalUsersCount,
-});
-export const toggleIsFetching = (
-	isFetching: boolean
-): ToggleIsFetchingType => ({
-	type: TOGGLE_IS_FETCHING,
-	isFetching,
-});
-export const toggleFollowingProgress = (
-	isFetching: boolean,
-	userId: number
-): ToggleFollowingProgressType => ({
-	type: TOGGLE_IS_FOLLOWING_PROGRESS,
-	isFetching,
-	userId,
-});
+export const actions = {
+	//пакуем в обьект чтобы было удобно типизировать
+	followSuccess: (userId: number) =>
+		({
+			type: FOLLOW,
+			userId,
+		} as const),
+	unfollowSuccess: (userId: number) =>
+		({
+			type: UNFOLLOW,
+			userId,
+		} as const),
+	setUsers: (users: [] | Array<UserType>) =>
+		({
+			type: SET_USERS,
+			users,
+		} as const),
+	setCurrentPage: (currentPage: number) =>
+		({
+			type: SET_CURRENT_PAGE,
+			currentPage,
+		} as const),
+	setUsersTotalCount: (totalUsersCount: number) =>
+		({
+			type: SET_TOTAL_USERS_COUNT,
+			count: totalUsersCount,
+		} as const),
+	toggleIsFetching: (isFetching: boolean) =>
+		({
+			type: TOGGLE_IS_FETCHING,
+			isFetching,
+		} as const),
+
+	toggleFollowingProgress: (isFetching: boolean, userId: number) =>
+		({
+			type: TOGGLE_IS_FOLLOWING_PROGRESS,
+			isFetching,
+			userId,
+		} as const),
+};
 
 //1 вариант типизации санок через переменные
 type GetStateType = () => AppStateType;
@@ -165,12 +162,12 @@ export const requestUsers = (page: number, pageSize: number) => {
 	return async (dispatch: DispatchType, getState: GetStateType) => {
 		// санка
 		// let a = getState();
-		dispatch(toggleIsFetching(true));
-		dispatch(setCurrentPage(page));
+		dispatch(actions.toggleIsFetching(true));
+		dispatch(actions.setCurrentPage(page));
 		let data = await usersAPI.getUsers(page, pageSize);
-		dispatch(toggleIsFetching(false));
-		dispatch(setUsers(data.items));
-		dispatch(setUsersTotalCount(data.totalCount));
+		dispatch(actions.toggleIsFetching(false));
+		dispatch(actions.setUsers(data.items));
+		dispatch(actions.setUsersTotalCount(data.totalCount));
 	};
 };
 
@@ -178,14 +175,14 @@ const _followUnfollowFlow = async (
 	dispatch: DispatchType,
 	userId: number,
 	apiMethod: any,
-	actionCreator: (userId: number) => FollowSuccessType | UnfollowSuccessType
+	actionCreator: (userId: number) => ActionsTypes
 ) => {
-	dispatch(toggleFollowingProgress(true, userId));
+	dispatch(actions.toggleFollowingProgress(true, userId));
 	let response = await apiMethod(userId);
-	if (response.data.resultCode == 0) {
+	if (response.data.resultCode === 0) {
 		dispatch(actionCreator(userId));
 	}
-	dispatch(toggleFollowingProgress(false, userId));
+	dispatch(actions.toggleFollowingProgress(false, userId));
 };
 
 //2 способ типизации Санок
@@ -202,7 +199,7 @@ export const follow = (userId: number): ThunkType => {
 			dispatch,
 			userId,
 			usersAPI.follow.bind(usersAPI),
-			followSuccess
+			actions.followSuccess
 		);
 	};
 };
@@ -212,7 +209,7 @@ export const unfollow = (userId: number): ThunkType => {
 			dispatch,
 			userId,
 			usersAPI.unfollow.bind(usersAPI),
-			unfollowSuccess
+			actions.unfollowSuccess
 		);
 	};
 };

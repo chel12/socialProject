@@ -27,6 +27,12 @@ export type AppStateType = ReturnType<RootReducerType>; //весь стейт Ap
 //AppStateType у тебя будет тип как у (ReturnType: возвращаемый тип ) RootReducerType
 // let state: AppStateType
 // state. и после точки увидим все редьюсеры допступные
+
+type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
+
+export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => any }> =
+	ReturnType<PropertiesTypes<T>>;
+
 //@ts-ignore   за этой строчкой будет игнорироваться тип
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

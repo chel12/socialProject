@@ -1,11 +1,7 @@
 import React from 'react';
 import style from '../common/FormsControl/FormsControls.module.css';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
-import {
-	Input,
-	createdField,
-	LoginFormValuesType,
-} from '../common/FormsControl/FormsControls.tsx';
+import { Input, createdField } from '../common/FormsControl/FormsControls.tsx';
 import { required } from '../../utils/validators/validators.ts';
 import { connect } from 'react-redux';
 import { login, logout } from '../../redux/authReducer.ts';
@@ -36,10 +32,12 @@ const LoginForm: React.FC<
 				'password',
 				[required]
 			)}
+
 			{createdField<LoginFormValuesTypeKeys>(
 				'checkbox',
 				'none',
 				'input',
+				//@ts-ignore
 				'none',
 				[],
 				'Remember me'
