@@ -1,4 +1,4 @@
-import { GetItemsType, instance, ResponseType } from './api.ts';
+import { GetItemsType, instance, APIResponseType } from './api.ts';
 
 //типизируем get вынос в api
 
@@ -12,12 +12,12 @@ export const usersAPI = {
 	},
 	follow(userId) {
 		return instance
-			.post<ResponseType>(`follow/${userId}`)
+			.post<APIResponseType>(`follow/${userId}`)
 			.then((res) => res.data);
 	},
 	unfollow(userId) {
 		return instance
 			.delete(`follow/${userId}`)
-			.then((res) => res.data) as Promise<ResponseType>;
+			.then((res) => res.data) as Promise<APIResponseType>;
 	},
 };

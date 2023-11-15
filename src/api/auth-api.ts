@@ -1,7 +1,7 @@
 import { instance, ResultCodesEnum, ResultCodeWithCaptcha } from './api.ts';
 
 //общий тип где будем уточнять какая дата
-type ResponseType<D = {}, RC = ResultCodesEnum> = {
+type APIResponseType<D = {}, RC = ResultCodesEnum> = {
 	data: D;
 	messages: Array<string>;
 	resultCode: RC;
@@ -20,7 +20,7 @@ type LoginResponseType = {
 export const authAPI = {
 	me() {
 		return instance
-			.get<ResponseType<MeResponseType>>(`auth/me`)
+			.get<APIResponseType<MeResponseType>>(`auth/me`)
 			.then((res) => res.data); //так как get put post Дженерики
 		//вернули промис не который гетом, а промис который вернгулся thenom
 	},
@@ -31,7 +31,7 @@ export const authAPI = {
 		captcha: null | string = null
 	) {
 		return instance
-			.post<ResponseType<LoginResponseType,ResultCodesEnum | ResultCodeWithCaptcha>>('auth/login', {
+			.post<APIResponseType<LoginResponseType,ResultCodesEnum | ResultCodeWithCaptcha>>('auth/login', {
 				email,
 				password,
 				rememberMe,

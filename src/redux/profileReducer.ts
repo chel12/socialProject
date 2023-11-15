@@ -104,10 +104,12 @@ export const setUserProfile = (
 	type: SET_USER_PROFILE,
 	profile,
 });
+
 export const setStatus = (status: string): SetStatusActionType => ({
 	type: SET_STATUS,
 	status,
 });
+
 export const deletePost = (postId: number): DeletePostActionType => ({
 	type: DELETE_POST,
 	postId,
@@ -122,37 +124,41 @@ export const getUserProfile = (userId: number) => async (dispatch: any) => {
 	const data = await profileAPI.getProfile(userId);
 	dispatch(setUserProfile(data));
 };
+
 export const getStatus = (userId: number) => async (dispatch: any) => {
-	let response = await profileAPI.getStatus(userId);
-	dispatch(setStatus(response.data));
+	let data = await profileAPI.getStatus(userId);
+	dispatch(setStatus(data));
 };
+
 export const updateStatus = (status: string) => async (dispatch: any) => {
 	try {
-		let response = await profileAPI.updateStatus(status);
-		if (response.data.resultCode === 0) {
+		let data = await profileAPI.updateStatus(status);
+		if (data.resultCode === 0) {
 			dispatch(setStatus(status));
 		}
 	} catch (error) {}
 };
+
 export const savePhoto = (file: any) => async (dispatch: any) => {
-	let response = await profileAPI.savePhoto(file);
-	if (response.data.resultCode === 0) {
-		dispatch(savePhotoSuccess(response.data.data.photos));
+	let data = await profileAPI.savePhoto(file);
+	if (data.resultCode === 0) {
+		dispatch(savePhotoSuccess(data.data.photos));
 	}
 };
+
 export const saveProfile =
 	(profile: ProfileType) => async (dispatch: any, getState: any) => {
 		const userId = getState().auth.userId;
-		const response = await profileAPI.saveProfile(profile);
-		if (response.data.resultCode === 0) {
+		const data = await profileAPI.saveProfile(profile);
+		if (data.resultCode === 0) {
 			dispatch(getUserProfile(userId));
 		} else {
 			dispatch(
 				stopSubmit('edit-profile', {
-					_error: response.data.messages[0],
+					_error: data.messages[0],
 				})
 			);
-			return Promise.reject(response.data.messages[0]);
+			return Promise.reject(data.messages[0]);
 		}
 	};
 

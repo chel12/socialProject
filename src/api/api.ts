@@ -14,14 +14,12 @@ export enum ResultCodeWithCaptcha {
 //axios типизирован внутри
 //get post put является genericom
 
-
 //общий тип где будем уточнять какая дата
-export type ResponseType<D = {}, RC = ResultCodesEnum> = {
+export type APIResponseType<D = {}, RC = ResultCodesEnum> = {
 	data: D;
 	messages: Array<string>;
 	resultCode: RC;
 };
-
 
 export const instance = axios.create({
 	withCredentials: true,
