@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { usersAPI } from './../api/users-api.ts';
-import { PhotosType, UserType } from '../types/types';
+import { UserType } from '../types/types';
 import { updateObjectInArray } from '../utils/object-helpers';
-import { AppStateType, InferActionsTypes } from './redux-store';
+import { AppStateType, BaseThunkType, InferActionsTypes } from './redux-store';
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -13,17 +13,7 @@ const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
-// type InitialStateType = {
-// 	users: [] | Array<UserType>;
-// 	pageSize: number | null;
-// 	totalUsersCount: number | null;
-// 	currentPage: number | null;
-// 	isFetching: boolean;
-// 	followingInProgress: [] | any;
-// };
-
-type InitialStateType = typeof initialState;
-
+//Иницилизация state reducer
 let initialState = {
 	users: [] as Array<UserType>,
 	pageSize: 4,
@@ -33,6 +23,7 @@ let initialState = {
 	followingInProgress: [] as Array<number>, //array of users ids
 };
 
+//Reducer
 const usersReducer = (
 	state = initialState,
 	action: ActionsTypes
@@ -79,41 +70,9 @@ const usersReducer = (
 	}
 };
 
-//обобщаем типы экшенов и затем в редьюсер пишем обобщённый тип
-type ActionsTypes = InferActionsTypes<typeof actions>;
-
-// type FollowSuccessType = {
-// 	type: typeof FOLLOW;
-// 	userId: number;
-// };
-// type UnfollowSuccessType = {
-// 	type: typeof UNFOLLOW;
-// 	userId: number;
-// };
-// type SetUsersType = {
-// 	type: typeof SET_USERS;
-// 	users: [] | Array<UserType>;
-// };
-// type SetCurrentPageType = {
-// 	type: typeof SET_CURRENT_PAGE;
-// 	currentPage: number;
-// };
-// type SetUsersTotalCountType = {
-// 	type: typeof SET_TOTAL_USERS_COUNT;
-// 	count: number;
-// };
-// type ToggleIsFetchingType = {
-// 	type: typeof TOGGLE_IS_FETCHING;
-// 	isFetching: boolean;
-// };
-// type ToggleFollowingProgressType = {
-// 	type: typeof TOGGLE_IS_FOLLOWING_PROGRESS;
-// 	isFetching: boolean;
-// 	userId: number;
-// };
-
+//Actions
+//пакуем в обьект чтобы было удобно типизировать
 export const actions = {
-	//пакуем в обьект чтобы было удобно типизировать
 	followSuccess: (userId: number) =>
 		({
 			type: FOLLOW,
@@ -153,10 +112,6 @@ export const actions = {
 		} as const),
 };
 
-//1 вариант типизации санок через переменные
-type GetStateType = () => AppStateType;
-type DispatchType = Dispatch<ActionsTypes>;
-
 export const requestUsers = (page: number, pageSize: number) => {
 	//Санка креатор
 	return async (dispatch: DispatchType, getState: GetStateType) => {
@@ -185,14 +140,6 @@ const _followUnfollowFlow = async (
 	dispatch(actions.toggleFollowingProgress(false, userId));
 };
 
-//2 способ типизации Санок
-type ThunkType = ThunkAction<
-	Promise<void>,
-	AppStateType,
-	unknown,
-	ActionsTypes
->;
-
 export const follow = (userId: number): ThunkType => {
 	return async (dispatch) => {
 		_followUnfollowFlow(
@@ -215,3 +162,27 @@ export const unfollow = (userId: number): ThunkType => {
 };
 
 export default usersReducer;
+
+//Типы
+
+//типизация иницилизации
+type InitialStateType = typeof initialState;
+
+//обобщаем типы экшенов и затем в редьюсер пишем обобщённый тип
+type ActionsTypes = InferActionsTypes<typeof actions>;
+
+//1 вариант типизации санок через переменные
+type GetStateType = () => AppStateType;
+type DispatchType = Dispatch<ActionsTypes>;
+
+//2 способ типизации Санок
+// type ThunkType = ThunkAction<
+// 	Promise<void>,
+// 	AppStateType,
+// 	unknown,
+// 	ActionsTypes
+// >;
+
+//изменнеие 2 способа на baseType, чтобы не писать такую длинную запись
+//Тип санок типизируем базовым тайпом с экшен тайпами
+type ThunkType = BaseThunkType<ActionsTypes>;

@@ -1,15 +1,24 @@
 import { getAuthUserData } from './authReducer.ts';
+import { InferActionsTypes } from './redux-store.ts';
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+const INITIALIZED_SUCCESS = 'SN/APP/INITIALIZED_SUCCESS';
 
-export type InitialStateType = {
-	initialized: boolean;
-};
+//1) тип для иниц стейта, 2) экшены в обьект, 3) типы для экшенов через generic
 
-let initialState: InitialStateType = {
+//иницилизация стейта
+let initialState = {
 	initialized: false,
 };
-const appReducer = (state = initialState, action: any): InitialStateType => {
+
+//определения типа как у иницилизации стейта
+export type InitialStateType = typeof initialState;
+//
+type ActionsType = InferActionsTypes<typeof actions>;
+
+const appReducer = (
+	state = initialState,
+	action: ActionsType
+): InitialStateType => {
 	switch (action.type) {
 		case INITIALIZED_SUCCESS:
 			return {
@@ -22,19 +31,20 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
 	}
 };
 
-type InitializedSuccessActionType = {
-	type: typeof INITIALIZED_SUCCESS;
-};
+//чтобы не создавить экшн типы для экшн креаторов, которые нам выплёвывают соотвествующие типы
+//будет использоваться автовыведение типизации. const actions
 
-export const initializedSuccess = (): InitializedSuccessActionType => ({
-	type: INITIALIZED_SUCCESS,
-});
+export const actions = {
+	initializedSuccess: () => ({
+		type: INITIALIZED_SUCCESS,
+	}),
+};
 
 export const initializeApp = () => (dispatch: any) => {
 	let promise = dispatch(getAuthUserData());
 
 	promise.then(() => {
-		dispatch(initializedSuccess());
+		dispatch(actions.initializedSuccess());
 	});
 };
 
