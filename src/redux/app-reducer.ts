@@ -10,11 +10,7 @@ let initialState = {
 	initialized: false,
 };
 
-//определения типа как у иницилизации стейта
-export type InitialStateType = typeof initialState;
-//
-type ActionsType = InferActionsTypes<typeof actions>;
-
+//reducer
 const appReducer = (
 	state = initialState,
 	action: ActionsType
@@ -34,12 +30,14 @@ const appReducer = (
 //чтобы не создавить экшн типы для экшн креаторов, которые нам выплёвывают соотвествующие типы
 //будет использоваться автовыведение типизации. const actions
 
+//Action
 export const actions = {
 	initializedSuccess: () => ({
 		type: INITIALIZED_SUCCESS,
 	}),
 };
 
+// Санки
 export const initializeApp = () => (dispatch: any) => {
 	let promise = dispatch(getAuthUserData());
 
@@ -49,3 +47,10 @@ export const initializeApp = () => (dispatch: any) => {
 };
 
 export default appReducer;
+
+//Типы
+
+//определения типа как у иницилизации стейта
+export type InitialStateType = typeof initialState;
+//
+type ActionsType = InferActionsTypes<typeof actions>;

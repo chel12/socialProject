@@ -1,8 +1,7 @@
 import { Dispatch } from 'redux';
-import { ThunkAction } from 'redux-thunk';
 import { usersAPI } from './../api/users-api.ts';
 import { UserType } from '../types/types';
-import { updateObjectInArray } from '../utils/object-helpers';
+import { updateObjectInArray } from '../utils/object-helpers.ts';
 import { AppStateType, BaseThunkType, InferActionsTypes } from './redux-store';
 
 const FOLLOW = 'FOLLOW';
@@ -112,11 +111,9 @@ export const actions = {
 		} as const),
 };
 
-export const requestUsers = (page: number, pageSize: number) => {
-	//Санка креатор
-	return async (dispatch: DispatchType, getState: GetStateType) => {
-		// санка
-		// let a = getState();
+//Санки
+export const requestUsers = (page: number, pageSize: number): ThunkType => {
+	return async (dispatch, getState) => {
 		dispatch(actions.toggleIsFetching(true));
 		dispatch(actions.setCurrentPage(page));
 		let data = await usersAPI.getUsers(page, pageSize);
@@ -126,8 +123,9 @@ export const requestUsers = (page: number, pageSize: number) => {
 	};
 };
 
+//Внутр универсал функция для подписки и отписки
 const _followUnfollowFlow = async (
-	dispatch: DispatchType,
+	dispatch: Dispatch<ActionsTypes>,
 	userId: number,
 	apiMethod: any,
 	actionCreator: (userId: number) => ActionsTypes
@@ -173,7 +171,6 @@ type ActionsTypes = InferActionsTypes<typeof actions>;
 
 //1 вариант типизации санок через переменные
 type GetStateType = () => AppStateType;
-type DispatchType = Dispatch<ActionsTypes>;
 
 //2 способ типизации Санок
 // type ThunkType = ThunkAction<

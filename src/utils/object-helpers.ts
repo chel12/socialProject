@@ -1,8 +1,8 @@
 export const updateObjectInArray = (
-	items,
-	itemId,
-	objPropName,
-	newObjProps
+	items: any,
+	itemId: any,
+	objPropName: any,
+	newObjProps: any
 ) => {
 	return items.map((u) => {
 		if (u[objPropName] === itemId) {

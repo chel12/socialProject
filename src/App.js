@@ -16,7 +16,7 @@ import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
 import Page404 from './components/Pages/Page404';
 const DialogsContainer = lazy(() =>
-	import('./components/Dialogs/DialogsContainer')
+	import('./components/Dialogs/DialogsContainer.tsx')
 );
 class App extends React.Component {
 	catchAllUnhandledErrors = (promiseRejectionEvent) => {
