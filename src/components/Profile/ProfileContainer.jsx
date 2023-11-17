@@ -6,10 +6,10 @@ import {
 	updateStatus,
 	savePhoto,
 	saveProfile,
-} from '../../redux/profileReducer.ts';
+} from '../../redux/profileReducer';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import withAuthRedirect from '../../hoc/withAuthRedirect';
+import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 
 export function withRouter(Children) {

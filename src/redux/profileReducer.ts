@@ -1,7 +1,7 @@
 import { stopSubmit } from 'redux-form';
-import { profileAPI } from './../api/profile-api.ts';
+import { profileAPI } from './../api/profile-api';
 import { PhotosType, PostDataType, ProfileType } from '../types/types';
-import { BaseThunkType, InferActionsTypes } from './redux-store.ts';
+import { BaseThunkType, InferActionsTypes } from './redux-store';
 const ADD_POST = 'SN/PROFILE/ADD-POST';
 const DELETE_POST = 'SN/PROFILE/DELETE_POST';
 const SET_USER_PROFILE = 'SN/PROFILE/SET_USER_PROFILE';
@@ -146,11 +146,8 @@ export const saveProfile =
 				throw new Error('userId can`t be null');
 			}
 		} else {
-			dispatch(
-				stopSubmit('edit-profile', {
-					_error: data.messages[0],
-				})
-			);
+			//@ts-ignore
+			dispatch(stopSubmit('edit-profile', { _error: data.messages[0] }));
 			return Promise.reject(data.messages[0]);
 		}
 	};

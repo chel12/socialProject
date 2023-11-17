@@ -1,4 +1,4 @@
-import { instance, ResultCodesEnum, ResultCodeWithCaptcha } from './api.ts';
+import { instance, ResultCodesEnum, ResultCodeWithCaptcha } from './api';
 
 //общий тип где будем уточнять какая дата
 type APIResponseType<D = {}, RC = ResultCodesEnum> = {

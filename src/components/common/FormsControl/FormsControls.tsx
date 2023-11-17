@@ -1,12 +1,15 @@
 import React from 'react';
 import { FieldValidatorType } from '../../../utils/validators/validators';
 import s from './FormsControls.module.css';
-import { Field } from 'redux-form';
+import { WrappedFieldProps, Field } from 'redux-form';
 
 const FormControl = ({
 	//для ошибок
+	// @ts-ignore
 	input,
+	// @ts-ignore
 	meta: { touched, error },
+	// @ts-ignore
 	inputOrTextArea,
 	...props
 }) => {
@@ -24,7 +27,7 @@ const FormControl = ({
 		</div>
 	);
 };
-
+// @ts-ignore
 export const TextArea = ({ input, meta, ...props }) => {
 	//шаблон для текс ареа
 	return (
@@ -38,6 +41,7 @@ export const TextArea = ({ input, meta, ...props }) => {
 	);
 };
 
+// @ts-ignore
 export const Input = ({ input, meta, props }) => {
 	//шаблон для инпута
 	return (
@@ -50,11 +54,10 @@ export const Input = ({ input, meta, props }) => {
 	);
 };
 
-
-export function createdField<FormKeysType>(
+export function createdField<FormKeysType extends string>(
 	type: any,
 	placeholder: string | undefined,
-	component: string | any,
+	component: React.FC<WrappedFieldProps>,
 	name: FormKeysType,
 	validate: Array<FieldValidatorType>,
 	props = {},

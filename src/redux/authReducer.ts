@@ -1,8 +1,8 @@
 import { stopSubmit } from 'redux-form';
-import { ResultCodesEnum, ResultCodeWithCaptcha } from '../api/api.ts';
-import { authAPI } from '../api/auth-api.ts';
-import { securityAPI } from '../api/security-api.ts';
-import { BaseThunkType, InferActionsTypes } from './redux-store.ts';
+import { ResultCodesEnum, ResultCodeWithCaptcha } from '../api/api';
+import { authAPI } from '../api/auth-api';
+import { securityAPI } from '../api/security-api';
+import { BaseThunkType, InferActionsTypes } from './redux-store';
 
 const SET_USER_DATA = 'SN/auth/SET_USER_DATA';
 const GET_CAPTCHA_URL_SUCCESS = 'SN/auth/GET_CAPTCHA_URL_SUCCESS';
@@ -61,7 +61,7 @@ export const login =
 		email: string,
 		password: string,
 		rememberMe: boolean,
-		captcha: any
+		captcha: string
 	): ThunkType =>
 	async (dispatch) => {
 		let loginData = await authAPI.login(
@@ -83,7 +83,10 @@ export const login =
 				loginData.messages.length > 0
 					? loginData.messages[0]
 					: 'Some error';
-			dispatch(stopSubmit('login', { _error: message }));
+			dispatch(
+				//@ts-ignore
+				stopSubmit('login', { _error: message })
+			);
 		}
 	};
 

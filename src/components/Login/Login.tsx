@@ -1,10 +1,10 @@
 import React from 'react';
 import style from '../common/FormsControl/FormsControls.module.css';
 import { reduxForm, InjectedFormProps } from 'redux-form';
-import { Input, createdField } from '../common/FormsControl/FormsControls.tsx';
-import { required } from '../../utils/validators/validators.ts';
+import { Input, createdField } from '../common/FormsControl/FormsControls';
+import { required } from '../../utils/validators/validators';
 import { connect } from 'react-redux';
-import { login } from '../../redux/authReducer.ts';
+import { login } from '../../redux/authReducer';
 import { Navigate } from 'react-router';
 import { AppStateType } from './../../redux/redux-store';
 
@@ -21,6 +21,7 @@ const LoginForm: React.FC<
 			{createdField<LoginFormValuesTypeKeys>(
 				'email',
 				'Email',
+				//@ts-ignore
 				Input,
 				'email',
 				[required]
@@ -28,6 +29,7 @@ const LoginForm: React.FC<
 			{createdField<LoginFormValuesTypeKeys>(
 				'password',
 				'Password',
+				//@ts-ignore
 				Input,
 				'password',
 				[required]
@@ -36,6 +38,7 @@ const LoginForm: React.FC<
 			{createdField<LoginFormValuesTypeKeys>(
 				'checkbox',
 				'none',
+				//@ts-ignore
 				'input',
 				//@ts-ignore
 				'none',
@@ -47,6 +50,7 @@ const LoginForm: React.FC<
 				createdField<LoginFormValuesTypeKeys>(
 					'input',
 					'Symbols from image',
+					//@ts-ignore
 					Input,
 					'captcha',
 					[required]

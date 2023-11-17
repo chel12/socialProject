@@ -1,21 +1,21 @@
-import { GetItemsType, instance, APIResponseType } from './api.ts';
+import { GetItemsType, instance, APIResponseType } from './api';
 
 //типизируем get вынос в api
 
 export const usersAPI = {
-	getUsers(currentPage, pageSize) {
+	getUsers(currentPage: number, pageSize: number) {
 		return instance
 			.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`)
 			.then((res) => {
 				return res.data;
 			});
 	},
-	follow(userId) {
+	follow(userId: number) {
 		return instance
 			.post<APIResponseType>(`follow/${userId}`)
 			.then((res) => res.data);
 	},
-	unfollow(userId) {
+	unfollow(userId: number) {
 		return instance
 			.delete(`follow/${userId}`)
 			.then((res) => res.data) as Promise<APIResponseType>;

@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
-import { usersAPI } from './../api/users-api.ts';
+import { usersAPI } from './../api/users-api';
 import { UserType } from '../types/types';
-import { updateObjectInArray } from '../utils/object-helpers.ts';
+import { updateObjectInArray } from '../utils/object-helpers';
 import { AppStateType, BaseThunkType, InferActionsTypes } from './redux-store';
 
 const FOLLOW = 'FOLLOW';

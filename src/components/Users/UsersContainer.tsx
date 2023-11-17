@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Users from './Users.tsx';
+import Users from './Users';
 
-import { follow, unfollow, requestUsers } from '../../redux/usersReducer.ts';
+import { follow, unfollow, requestUsers } from '../../redux/usersReducer';
 import Preloader from '../common/Preloader/Preloader';
 import { compose } from 'redux';
 import {
@@ -12,7 +12,7 @@ import {
 	getPageSize,
 	getUsers,
 	getUsersTotalCount,
-} from '../../redux/users-selectors.ts';
+} from '../../redux/users-selectors';
 import { UserType } from '../../types/types';
 import { AppStateType } from '../../redux/redux-store';
 

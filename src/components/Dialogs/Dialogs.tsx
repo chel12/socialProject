@@ -2,8 +2,8 @@ import React from 'react';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import classes from './Dialogs.module.css';
-import AddMessageFormRedux from './AddMessageForm/AddMessageForm.tsx';
-import { InitialStateType } from './../../redux/dialogsReducer.ts';
+import { InitialStateType } from './../../redux/dialogsReducer';
+import AddMessageForm from './AddMessageForm/AddMessageForm.js';
 
 const Dialogs: React.FC<PropsType> = (props) => {
 	let state = props.dialogsPage;
@@ -26,7 +26,10 @@ const Dialogs: React.FC<PropsType> = (props) => {
 			<div className={classes.messages}>
 				<div>{messagesElements}</div>
 			</div>
-			<AddMessageFormRedux onSubmit={addNewMessage} />
+
+			<AddMessageForm //@ts-ignore
+				onSubmit={addNewMessage}
+			/>
 		</div>
 	);
 };

@@ -1,5 +1,5 @@
-import { getAuthUserData } from './authReducer.ts';
-import { InferActionsTypes } from './redux-store.ts';
+import { getAuthUserData } from './authReducer';
+import { InferActionsTypes } from './redux-store';
 
 const INITIALIZED_SUCCESS = 'SN/APP/INITIALIZED_SUCCESS';
 
