@@ -147,7 +147,7 @@ export const saveProfile =
 			}
 		} else {
 			//@ts-ignore
-			dispatch(stopSubmit('edit-profile', { _error: data.messages[0] }));
+			dispatch(stopSubmit('edit-profile', {_error: data.messages[0]}));
 			return Promise.reject(data.messages[0]);
 		}
 	};

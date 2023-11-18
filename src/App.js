@@ -4,20 +4,22 @@ import { Navigate, Route, Routes } from 'react-router';
 import Navbar from './components/Navbar/Navbar';
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
 
-import UsersContainer from './components/Users/UsersContainer.tsx';
+import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer, {
 	withRouter,
 } from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
-import LoginPage from './components/Login/Login.tsx';
+import LoginPage from './components/Login/Login';
 import { connect } from 'react-redux';
-import { initializeApp } from './redux/app-reducer.ts';
+import { initializeApp } from './redux/app-reducer';
 import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
 import Page404 from './components/Pages/Page404';
-const DialogsContainer = lazy(() =>
-	import('./components/Dialogs/DialogsContainer.jsx')
-);
+import DialogsContainer from './components/Dialogs/DialogsContainer';
+import Home from './components/Home/Home';
+// const DialogsContainer = lazy(() =>
+// 	import('./components/Dialogs/DialogsContainer')
+// );
 class App extends React.Component {
 	catchAllUnhandledErrors = (promiseRejectionEvent) => {
 		alert('some error occured');
@@ -58,6 +60,7 @@ class App extends React.Component {
 								<Route
 									path="/dialogs"
 									element={<DialogsContainer />}></Route>
+								<Route path="/home" element={<Home />}></Route>
 								<Route
 									path="/profile"
 									element={<ProfileContainer />}>

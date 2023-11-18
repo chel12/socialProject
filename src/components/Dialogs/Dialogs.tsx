@@ -3,7 +3,8 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import classes from './Dialogs.module.css';
 import { InitialStateType } from './../../redux/dialogsReducer';
-import AddMessageForm from './AddMessageForm/AddMessageForm.js';
+
+import { AddMessageForm } from './AddMessageForm/AddMessageForm.js';
 
 const Dialogs: React.FC<PropsType> = (props) => {
 	let state = props.dialogsPage;
@@ -27,9 +28,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
 				<div>{messagesElements}</div>
 			</div>
 
-			<AddMessageForm //@ts-ignore
-				onSubmit={addNewMessage}
-			/>
+			{/* <AddMessageForm onSubmit={addNewMessage} /> */}
 		</div>
 	);
 };
