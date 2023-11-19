@@ -43,6 +43,9 @@ export type AppStateType = ReturnType<RootReducerType>; //весь стейт Ap
 // let state: AppStateType
 // state. и после точки увидим все редьюсеры допступные
 
+//для диспатчей
+export type AppDispatch = typeof store.dispatch;
+
 //Дженерик
 type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
 // export type InferActionsTypes<

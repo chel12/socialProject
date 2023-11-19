@@ -17,6 +17,7 @@ import Preloader from './components/common/Preloader/Preloader';
 import Page404 from './components/Pages/Page404';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import Home from './components/Home/Home';
+import UsersPage from './components/Users/UsersContainer';
 // const DialogsContainer = lazy(() =>
 // 	import('./components/Dialogs/DialogsContainer')
 // );
@@ -72,7 +73,7 @@ class App extends React.Component {
 								<Route
 									path="/users"
 									element={
-										<UsersContainer pageTitle={'Самурай'} />
+										<UsersPage pageTitle={'Самурай'} />
 									}></Route>
 								<Route
 									path="/login"

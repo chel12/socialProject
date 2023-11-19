@@ -9,7 +9,7 @@ import {
 } from '../../redux/profileReducer';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {withAuthRedirect} from '../../hoc/withAuthRedirect';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 
 export function withRouter(Children) {
@@ -20,7 +20,7 @@ export function withRouter(Children) {
 }
 class ProfileContainer extends React.Component {
 	refreshProfile = () => {
-		let userId = this.props.match.params.userId; //match из визроутера ( HOC)
+		let userId = this.props.match.params.userId; //match из witchRouters ( HOC)
 		if (!userId) {
 			userId = this.props.authorizedUserId;
 			if (!userId) {
@@ -30,14 +30,17 @@ class ProfileContainer extends React.Component {
 		this.props.getUserProfile(userId);
 		this.props.getStatus(userId);
 	};
+
 	componentDidMount() {
 		this.refreshProfile();
 	}
+
 	componentDidUpdate(prevProps, prevState) {
 		if (this.props.match.params.userId != this.props.match.params.userId) {
 			this.refreshProfile();
 		}
 	}
+
 	render() {
 		return (
 			<Profile

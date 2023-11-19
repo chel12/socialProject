@@ -40,7 +40,6 @@ export const actions = {
 // Санки
 export const initializeApp = () => (dispatch: any) => {
 	let promise = dispatch(getAuthUserData());
-
 	promise.then(() => {
 		dispatch(actions.initializedSuccess());
 	});
