@@ -3,7 +3,7 @@ import s from './ProfileInfo.module.css';
 import {
 	createdField,
 	TextArea,
-} from '../../common/FormsControl/FormsControls.tsx';
+} from '../../common/FormsControl/FormsControls';
 
 const ProfileDataForm = ({ handleSubmit, profile, error }) => {
 	return (

@@ -24,6 +24,11 @@ const AddNewPostForm = (props) => {
 		</form>
 	);
 };
+
+type AddPostFormValuesType = {
+	newPostText: string;
+};
+
 const AddNewPostFormRedux = reduxForm({
 	form: 'ProfileAddNewPostForm',
 })(AddNewPostForm);
