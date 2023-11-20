@@ -1,15 +1,12 @@
 import './App.css';
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import Navbar from './components/Navbar/Navbar';
-// import DialogsContainer from './components/Dialogs/DialogsContainer';
-
-import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer, {
 	withRouter,
 } from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
-import LoginPage from './components/Login/Login';
+import  Login  from './components/Login/Login';
 import { connect } from 'react-redux';
 import { initializeApp } from './redux/app-reducer';
 import { compose } from 'redux';
@@ -77,7 +74,7 @@ class App extends React.Component {
 									}></Route>
 								<Route
 									path="/login"
-									element={<LoginPage />}></Route>
+									element={<Login />}></Route>
 								<Route path="*" element={<Page404 />}></Route>
 							</Routes>
 						</Suspense>

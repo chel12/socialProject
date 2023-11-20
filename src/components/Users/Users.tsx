@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
 import styles from './users.module.css';
@@ -13,14 +13,6 @@ import {
 import { requestUsers } from '../../redux/usersReducer';
 import { AppDispatch } from '../../redux/redux-store';
 import { AnyAction } from 'redux';
-import { UserType } from '../../types/types';
-
-// type PropsType = {
-// 	user: UserType;
-// 	followingInProgress: Array<number>;
-// 	unfollow: (userId: number) => void;
-// 	follow: (userId: number) => void;
-// };
 
 export const Users: React.FC = () => {
 	const users = useSelector(getUsers);

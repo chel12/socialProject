@@ -60,7 +60,7 @@ const usersReducer = (
 				followingInProgress: action.isFetching
 					? [...state.followingInProgress, action.userId]
 					: state.followingInProgress.filter(
-							(id: number) => id != action.userId
+							(id: number) => id !== action.userId
 					  ),
 			};
 		}
