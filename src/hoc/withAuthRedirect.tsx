@@ -8,17 +8,13 @@ let mapStateToPropsForRedirect = (state: AppStateType) =>
 		isAuth: state.auth.isAuth,
 	} as MapPropsType);
 
-
 type MapPropsType = {
 	isAuth: boolean;
 };
 
-
 type DispatchPropsType = {};
 
-
-export function withAuthRedirect<WCP>
-(
+export function withAuthRedirect<WCP extends object>(
 	WrappedComponent: React.ComponentType<WCP>
 ) {
 	const RedirectComponent: React.FC<MapPropsType & DispatchPropsType> = (
@@ -28,10 +24,7 @@ export function withAuthRedirect<WCP>
 
 		if (!isAuth) return <Navigate to="/login" />;
 
-		return (
-			//@ts-ignore
-			<WrappedComponent {...(restProps as WCP)} />
-		);
+		return <WrappedComponent {...(restProps as WCP)} />;
 	};
 
 	let ConnectedAuthRedirectComponent = connect<
