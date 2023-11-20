@@ -1,13 +1,13 @@
 import './App.css';
-import React, { Suspense } from 'react';
+import React, { ComponentType, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer, {
 	withRouter,
 } from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
-import  Login  from './components/Login/Login';
-import { connect } from 'react-redux';
+import Login from './components/Login/Login';
+import { Provider, connect } from 'react-redux';
 import { initializeApp } from './redux/app-reducer';
 import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
@@ -15,11 +15,15 @@ import Page404 from './components/Pages/Page404';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import Home from './components/Home/Home';
 import UsersPage from './components/Users/UsersContainer';
+import { BrowserRouter } from 'react-router-dom';
+import store, { AppStateType } from './redux/redux-store';
+
 // const DialogsContainer = lazy(() =>
 // 	import('./components/Dialogs/DialogsContainer')
 // );
-class App extends React.Component {
-	catchAllUnhandledErrors = (promiseRejectionEvent) => {
+
+class App extends React.Component<MapPropsType & DispatchPropsType> {
+	catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
 		alert('some error occured');
 		// console.error(promiseRejectionEvent);
 	};
@@ -84,9 +88,31 @@ class App extends React.Component {
 		}
 	}
 }
-const mapStateToProps = (state) => ({ initialized: state.app.initialized });
+const mapStateToProps = (state: AppStateType) => ({
+	initialized: state.app.initialized,
+});
 
-export default compose(
+type MapPropsType = ReturnType<typeof mapStateToProps>;
+type DispatchPropsType = {
+	initializeApp: () => void;
+};
+
+let AppContainer = compose<ComponentType>(
 	withRouter,
 	connect(mapStateToProps, { initializeApp })
 )(App);
+
+const SamuraiJSApp: React.FC = () => {
+	return (
+		<BrowserRouter>
+			<Provider store={store}>
+				<AppContainer />
+			</Provider>
+		</BrowserRouter>
+	);
+};
+export default SamuraiJSApp;
+// export default compose(
+// 	withRouter,
+// 	connect(mapStateToProps, { initializeApp })
+// )(App);

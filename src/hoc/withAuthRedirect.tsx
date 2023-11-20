@@ -8,10 +8,14 @@ let mapStateToPropsForRedirect = (state: AppStateType) =>
 		isAuth: state.auth.isAuth,
 	} as MapPropsType);
 
+
 type MapPropsType = {
 	isAuth: boolean;
 };
+
+
 type DispatchPropsType = {};
+
 
 export function withAuthRedirect<WCP>
 (

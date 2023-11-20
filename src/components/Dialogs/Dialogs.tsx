@@ -36,6 +36,8 @@ const Dialogs: React.FC<PropsType> = (props) => {
 export default Dialogs;
 
 //типы
+
+
 type PropsType = {
 	dialogsPage: InitialStateType;
 	sendMessage: (messageText: string) => void;
