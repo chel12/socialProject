@@ -1,9 +1,5 @@
-import { reduxForm } from 'redux-form';
+
 import s from './ProfileInfo.module.css';
-import {
-	createdField,
-	TextArea,
-} from '../../common/FormsControl/FormsControls';
 import { GetStringKeys, ProfileType } from '../../../types/types';
 
 type PropsType = {
@@ -12,7 +8,6 @@ type PropsType = {
 	error: string;
 };
 
-type ProfileTypeKeys = GetStringKeys<ProfileType>;
 
 const ProfileDataForm: React.FC<PropsType> = ({
 	handleSubmit,
@@ -20,6 +15,7 @@ const ProfileDataForm: React.FC<PropsType> = ({
 	error,
 }) => {
 	return (
+
 		<form onSubmit={handleSubmit}>
 			{error && <div className={s.formSummaryError}>{error} </div>}
 			<div>

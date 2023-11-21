@@ -7,9 +7,15 @@ import {
 	required,
 } from '../../../utils/validators/validators';
 import { TextArea } from '../../common/FormsControl/FormsControls';
+import { GetStringKeys, PostDataType } from '../../../types/types';
+
+type PropsType = {
+	posts: Array<PostDataType>;
+	addPost: (newPostText: string) => void;
+};
 
 const maxLength10 = maxLengthCreator(10);
-const AddNewPostForm = (props) => {
+const AddNewPostForm: React.FC<any> = (props) => {
 	return (
 		<form onSubmit={props.handleSubmit}>
 			<Field
@@ -28,30 +34,34 @@ const AddNewPostForm = (props) => {
 type AddPostFormValuesType = {
 	newPostText: string;
 };
+type AddPostFormValuesTypeKeys = GetStringKeys<AddPostFormValuesType>;
 
-const AddNewPostFormRedux = reduxForm({
+const AddNewPostFormRedux = reduxForm<AddPostFormValuesType, PropsType>({
 	form: 'ProfileAddNewPostForm',
 })(AddNewPostForm);
 
-const MyPosts = React.memo((props) => {
-	let postElements = props.post.map((el) => (
-		<Post text={el.message} like={el.likeCount} id={el.id} key={el.id} />
-	));
+const MyPosts: React.FC<PropsType> = (props) => {
+	let postElements = [...props.posts]
+		.reverse()
+		.map((el) => (
+			<Post text={el.message} like={el.likeCount} key={el.id} />
+		));
 	//ссылочку делаем на значения
 	let newPostElement = React.createRef();
 	//добавляем значения из текстареа и обнуляем текстареа
-	let onAddPost = (values) => {
+	let onAddPost = (values: AddPostFormValuesType) => {
 		props.addPost(values.newPostText);
 	};
 
 	return (
 		<div className={s.newPost}>
 			<div>
-				<AddNewPostFormRedux onSubmit={onAddPost} />
+				<AddNewPostForm onSubmit={onAddPost} />
 			</div>
 			<div className={s.posts}>{postElements}</div>
 		</div>
 	);
-});
+};
 
-export default MyPosts;
+const MyPostsMemorized = React.memo(MyPosts);
+export default MyPostsMemorized;

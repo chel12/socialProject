@@ -2,9 +2,19 @@ import React, { useState } from 'react';
 import classes from './ProfileInfo.module.css';
 import Preloader from '../../common/Preloader/Preloader';
 import ProfileStatusHook from './ProfileStatusHook';
-import userPhoto from './../../../img/avatar-small.jfif';
+import userPhoto from './../../../img/avatar-small.png';
 import ProfileDataForm from './ProfileDataForm';
-const ProfileInfo = ({
+import { ContactsType, ProfileType } from '../../../types/types';
+
+type PropsType = {
+	profile: ProfileType;
+	status: string;
+	updateStatus: (status: string) => void;
+	isOwner: boolean;
+	savePhoto: (file: File) => void;
+	saveProfile: (profile: ProfileType) => Promise<any>;
+};
+const ProfileInfo: React.FC<PropsType> = ({
 	profile,
 	status,
 	updateStatus,
@@ -16,12 +26,12 @@ const ProfileInfo = ({
 	if (!profile) {
 		return <Preloader />;
 	}
-	const mainPhotoSelected = (e) => {
-		if (e.target.files.length) {
+	const mainPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files?.length) {
 			savePhoto(e.target.files[0]);
 		}
 	};
-	const onSubmit = (formData) => {
+	const onSubmit = (formData: ProfileType) => {
 		saveProfile(formData).then(() => {
 			setEditMode(false);
 		});
@@ -60,7 +70,17 @@ const ProfileInfo = ({
 		</div>
 	);
 };
-const ProfileData = ({ profile, isOwner, goToEditMode }) => {
+
+type ProfileDataPropsType = {
+	profile: ProfileType;
+	isOwner: boolean;
+	goToEditMode: () => void;
+};
+const ProfileData: React.FC<ProfileDataPropsType> = ({
+	profile,
+	isOwner,
+	goToEditMode,
+}) => {
 	return (
 		<div>
 			{isOwner && (
@@ -90,7 +110,9 @@ const ProfileData = ({ profile, isOwner, goToEditMode }) => {
 						<Contact
 							key={key}
 							contactTitle={key}
-							contactValue={profile.contacts[key]}
+							contactValue={
+								profile.contacts[key as keyof ContactsType] //тут была проблема, надо уточнить в итоге тут тип ключа
+							}
 						/>
 					);
 				})}
@@ -104,7 +126,14 @@ const ProfileData = ({ profile, isOwner, goToEditMode }) => {
 	);
 };
 
-const Contact = ({ contactTitle, contactValue }) => {
+type ContactsPropsType = {
+	contactTitle: string;
+	contactValue: string;
+};
+const Contact: React.FC<ContactsPropsType> = ({
+	contactTitle,
+	contactValue,
+}) => {
 	return (
 		<div className={classes.contacts}>
 			<b>{contactTitle}</b>: {contactValue}

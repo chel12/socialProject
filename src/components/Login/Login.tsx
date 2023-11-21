@@ -98,13 +98,6 @@ const Login: React.FC = (props) => {
 	);
 };
 
-type MapDispatchPropsType = {
-	login: (
-		email: string,
-		password: string,
-		rememberMe: boolean,
-		captcha: any
-	) => void;
-};
+
 
 export default Login;

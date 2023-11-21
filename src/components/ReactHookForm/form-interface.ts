@@ -4,3 +4,9 @@ export interface IShippingField {
 	rememberMe: boolean;
 	captcha: string;
 }
+
+export interface IprofileData{
+fullName:string;
+lookingJob:boolean
+
+}

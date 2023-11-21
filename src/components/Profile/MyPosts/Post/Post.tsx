@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Post.module.css';
-const Post = ({ text, like }) => {
+const Post= ({ text, like }) => {
 	return (
 		<div className={classes.item}>
 			<img src="https://clck.ru/MqPbZ"></img>
