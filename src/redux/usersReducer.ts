@@ -11,7 +11,7 @@ const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
-
+const SET_FILTER = 'SET_FILTER';
 //Иницилизация state reducer
 let initialState = {
 	users: [] as Array<UserType>,
@@ -20,6 +20,7 @@ let initialState = {
 	currentPage: 1,
 	isFetching: true,
 	followingInProgress: [] as Array<number>, //array of users ids
+	filter: { term: '' },
 };
 
 //Reducer
@@ -28,6 +29,11 @@ const usersReducer = (
 	action: ActionsTypes
 ): InitialStateType => {
 	switch (action.type) {
+		case SET_FILTER:
+			return {
+				...state,
+				filter: action.payload,
+			};
 		case FOLLOW:
 			return {
 				...state,
@@ -72,6 +78,11 @@ const usersReducer = (
 //Actions
 //пакуем в обьект чтобы было удобно типизировать
 export const actions = {
+	setFilter: (term: string) =>
+		({
+			type: SET_FILTER,
+			payload: { term },
+		} as const),
 	followSuccess: (userId: number) =>
 		({
 			type: FOLLOW,
@@ -112,11 +123,17 @@ export const actions = {
 };
 
 //Санки
-export const requestUsers = (page: number, pageSize: number): ThunkType => {
+export const requestUsers = (
+	page: number,
+	pageSize: number,
+	term: string
+): ThunkType => {
 	return async (dispatch, getState) => {
 		dispatch(actions.toggleIsFetching(true));
 		dispatch(actions.setCurrentPage(page));
-		let data = await usersAPI.getUsers(page, pageSize);
+		dispatch(actions.setFilter(term));
+
+		let data = await usersAPI.getUsers(page, pageSize, term);
 		dispatch(actions.toggleIsFetching(false));
 		dispatch(actions.setUsers(data.items));
 		dispatch(actions.setUsersTotalCount(data.totalCount));
@@ -164,13 +181,14 @@ export default usersReducer;
 //Типы
 
 //типизация иницилизации
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
+export type FilterType = typeof initialState.filter;
 
 //обобщаем типы экшенов и затем в редьюсер пишем обобщённый тип
 type ActionsTypes = InferActionsTypes<typeof actions>;
 
 //1 вариант типизации санок через переменные
-type GetStateType = () => AppStateType;
+export type GetStateType = () => AppStateType;
 
 //2 способ типизации Санок
 // type ThunkType = ThunkAction<

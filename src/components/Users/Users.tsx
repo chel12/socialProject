@@ -10,9 +10,11 @@ import {
 	getUsers,
 	getUsersTotalCount,
 } from '../../redux/users-selectors';
-import { requestUsers } from '../../redux/usersReducer';
+import { FilterType, requestUsers } from '../../redux/usersReducer';
 import { AppDispatch } from '../../redux/redux-store';
 import { AnyAction } from 'redux';
+import { Formik } from 'formik';
+import UsersSearchForm from './UsersSearchForm';
 
 export const Users: React.FC = () => {
 	const users = useSelector(getUsers);
@@ -24,11 +26,15 @@ export const Users: React.FC = () => {
 	const dispatch: AppDispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(requestUsers(currentPage, pageSize) as unknown as AnyAction);
+		dispatch(
+			requestUsers(currentPage, pageSize, '') as unknown as AnyAction
+		);
 	}, []);
 
 	const onPageChanged = (pageNumber: number) => {
-		dispatch(requestUsers(pageNumber, pageSize) as unknown as AnyAction);
+		dispatch(
+			requestUsers(pageNumber, pageSize, '') as unknown as AnyAction
+		);
 	};
 
 	const unfollow = (userId: number) => {
@@ -37,8 +43,15 @@ export const Users: React.FC = () => {
 	const follow = (userId: number) => {
 		dispatch(unfollow(userId) as unknown as AnyAction);
 	};
+	const onFilterChanged = (filter: FilterType) => {
+		dispatch(
+			requestUsers(1, pageSize, filter.term) as unknown as AnyAction
+		);
+	};
+
 	return (
 		<div className={styles.usersContainer}>
+			<UsersSearchForm onFilterChanged={onFilterChanged} />
 			<Paginator
 				currentPage={currentPage}
 				onPageChanged={onPageChanged}

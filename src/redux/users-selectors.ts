@@ -22,6 +22,9 @@ export const getIsFetching = (state: AppStateType) => {
 export const GetFollowingInProgress = (state: AppStateType) => {
 	return state.usersPage.followingInProgress;
 };
+export const getTerm = (state: AppStateType) => {
+	return state.usersPage.filter;
+};
 
 /* biblioteka reselect */
 // export const getUsersSuper = createSelector(getUsers, (users) => {

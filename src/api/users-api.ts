@@ -3,9 +3,11 @@ import { GetItemsType, instance, APIResponseType } from './api';
 //типизируем get вынос в api
 
 export const usersAPI = {
-	getUsers(currentPage: number, pageSize: number) {
+	getUsers(currentPage: number, pageSize: number, term: string = '') {
 		return instance
-			.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`)
+			.get<GetItemsType>(
+				`users?page=${currentPage}&count=${pageSize}&term=${term}`
+			)
 			.then((res) => {
 				return res.data;
 			});

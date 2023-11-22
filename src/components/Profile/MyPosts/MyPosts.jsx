@@ -25,9 +25,6 @@ const AddNewPostForm = (props) => {
 	);
 };
 
-type AddPostFormValuesType = {
-	newPostText: string;
-};
 
 const AddNewPostFormRedux = reduxForm({
 	form: 'ProfileAddNewPostForm',
