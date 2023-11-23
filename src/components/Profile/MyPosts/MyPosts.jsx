@@ -9,13 +9,9 @@ import {
 import { TextArea } from '../../common/FormsControl/FormsControls';
 import { GetStringKeys, PostDataType } from '../../../types/types';
 
-type PropsType = {
-	posts: Array<PostDataType>;
-	addPost: (newPostText: string) => void;
-};
 
 const maxLength10 = maxLengthCreator(10);
-const AddNewPostForm: React.FC<any> = (props) => {
+const AddNewPostForm = (props) => {
 	return (
 		<form onSubmit={props.handleSubmit}>
 			<Field
@@ -31,16 +27,12 @@ const AddNewPostForm: React.FC<any> = (props) => {
 	);
 };
 
-type AddPostFormValuesType = {
-	newPostText: string;
-};
-type AddPostFormValuesTypeKeys = GetStringKeys<AddPostFormValuesType>;
 
-const AddNewPostFormRedux = reduxForm<AddPostFormValuesType, PropsType>({
+const AddNewPostFormRedux = reduxForm({
 	form: 'ProfileAddNewPostForm',
 })(AddNewPostForm);
 
-const MyPosts: React.FC<PropsType> = (props) => {
+const MyPosts = (props) => {
 	let postElements = [...props.posts]
 		.reverse()
 		.map((el) => (
@@ -49,7 +41,7 @@ const MyPosts: React.FC<PropsType> = (props) => {
 	//ссылочку делаем на значения
 	let newPostElement = React.createRef();
 	//добавляем значения из текстареа и обнуляем текстареа
-	let onAddPost = (values: AddPostFormValuesType) => {
+	let onAddPost = (values) => {
 		props.addPost(values.newPostText);
 	};
 
