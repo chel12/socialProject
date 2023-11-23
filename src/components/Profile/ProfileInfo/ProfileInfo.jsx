@@ -6,15 +6,8 @@ import userPhoto from './../../../img/avatar-small.png';
 import ProfileDataForm from './ProfileDataForm';
 import { ContactsType, ProfileType } from '../../../types/types';
 
-type PropsType = {
-	profile: ProfileType;
-	status: string;
-	updateStatus: (status: string) => void;
-	isOwner: boolean;
-	savePhoto: (file: File) => void;
-	saveProfile: (profile: ProfileType) => Promise<any>;
-};
-const ProfileInfo: React.FC<PropsType> = ({
+
+const ProfileInfo= ({
 	profile,
 	status,
 	updateStatus,
@@ -26,12 +19,12 @@ const ProfileInfo: React.FC<PropsType> = ({
 	if (!profile) {
 		return <Preloader />;
 	}
-	const mainPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const mainPhotoSelected = (e) => {
 		if (e.target.files?.length) {
 			savePhoto(e.target.files[0]);
 		}
 	};
-	const onSubmit = (formData: ProfileType) => {
+	const onSubmit = (formData) => {
 		saveProfile(formData).then(() => {
 			setEditMode(false);
 		});
@@ -71,12 +64,8 @@ const ProfileInfo: React.FC<PropsType> = ({
 	);
 };
 
-type ProfileDataPropsType = {
-	profile: ProfileType;
-	isOwner: boolean;
-	goToEditMode: () => void;
-};
-const ProfileData: React.FC<ProfileDataPropsType> = ({
+
+const ProfileData= ({
 	profile,
 	isOwner,
 	goToEditMode,
@@ -111,7 +100,7 @@ const ProfileData: React.FC<ProfileDataPropsType> = ({
 							key={key}
 							contactTitle={key}
 							contactValue={
-								profile.contacts[key as keyof ContactsType] //тут была проблема, надо уточнить в итоге тут тип ключа
+								profile.contacts[key] //тут была проблема, надо уточнить в итоге тут тип ключа
 							}
 						/>
 					);
@@ -126,11 +115,7 @@ const ProfileData: React.FC<ProfileDataPropsType> = ({
 	);
 };
 
-type ContactsPropsType = {
-	contactTitle: string;
-	contactValue: string;
-};
-const Contact: React.FC<ContactsPropsType> = ({
+const Contact= ({
 	contactTitle,
 	contactValue,
 }) => {

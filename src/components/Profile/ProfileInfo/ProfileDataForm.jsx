@@ -6,15 +6,10 @@ import {
 } from '../../common/FormsControl/FormsControls';
 import { GetStringKeys, ProfileType } from '../../../types/types';
 
-type PropsType = {
-	handleSubmit: (profile: ProfileType) => void;
-	profile: ProfileType;
-	error: string;
-};
 
-type ProfileTypeKeys = GetStringKeys<ProfileType>;
 
-const ProfileDataForm: React.FC<PropsType> = ({
+
+const ProfileDataForm = ({
 	handleSubmit,
 	profile,
 	error,
@@ -28,7 +23,7 @@ const ProfileDataForm: React.FC<PropsType> = ({
 
 			<div>
 				<b>Full Name: </b>{' '}
-				{createdField<ProfileTypeKeys>(
+				{createdField(
 					'input',
 					'Full name',
 					'input',
@@ -38,7 +33,7 @@ const ProfileDataForm: React.FC<PropsType> = ({
 			</div>
 			<div>
 				<b>Looking for a job</b>:{' '}
-				{createdField<ProfileTypeKeys>(
+				{createdField(
 					'checkbox',
 					'',
 					'input',
