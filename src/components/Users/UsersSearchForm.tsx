@@ -1,8 +1,14 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { FilterType } from '../../redux/usersReducer';
 import { getTerm } from '../../redux/users-selectors';
 import { useSelector } from 'react-redux';
+
+type FormType = {
+	term: string;
+	friend: 'true' | 'false' | 'null';
+};
+type FriendFormType = 'true' | 'false' | 'null';
 type PropsType = {
 	onFilterChanged: (filter: FilterType) => void;
 };
@@ -26,17 +32,17 @@ const UsersSearchForm: React.FC<PropsType> = React.memo((props) => {
 	//соберет данные а потом  эти данные диспатчить нужно  в getUsers санку (можно сделать через Хук )
 	const filter = useSelector(getTerm);
 	const submit = (
-		values: FilterType,
+		values: FormType,
 		{ setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void } //хз какой тип поэтому сделали, number и он подсказал какой тип должен быть
 	) => {
 		const filter: FilterType = {
 			term: values.term,
-			// friend:
-			// 	values.friend === 'null'
-			// 		? null
-			// 		: values.friend === 'true'
-			// 		? true
-			// 		: false,
+			friend:
+				values.friend === 'null'
+					? null
+					: values.friend === 'true'
+					? true
+					: false,
 		};
 
 		props.onFilterChanged(filter);
@@ -46,7 +52,10 @@ const UsersSearchForm: React.FC<PropsType> = React.memo((props) => {
 		<div>
 			<Formik
 				validate={UsersSearchFormValidate}
-				initialValues={{ term: '' }}
+				initialValues={{
+					term: filter.term,
+					friend: String(filter.friend) as FriendFormType,
+				}}
 				onSubmit={submit}>
 				{({
 					values,
@@ -59,6 +68,11 @@ const UsersSearchForm: React.FC<PropsType> = React.memo((props) => {
 					/* and other goodies */
 				}) => (
 					<form onSubmit={handleSubmit}>
+						<Field name="friend" as="select">
+							<option value="null">All</option>
+							<option value="true">Only followed</option>
+							<option value="false">Only unfollowed </option>
+						</Field>
 						<input
 							type="text" //типп
 							name="term" //должен совпадать с initialValues

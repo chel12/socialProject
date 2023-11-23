@@ -9,6 +9,7 @@ import {
 	getPageSize,
 	getUsers,
 	getUsersTotalCount,
+	getTerm,
 } from '../../redux/users-selectors';
 import { FilterType, requestUsers } from '../../redux/usersReducer';
 import { AppDispatch } from '../../redux/redux-store';
@@ -16,24 +17,25 @@ import { AnyAction } from 'redux';
 import { Formik } from 'formik';
 import UsersSearchForm from './UsersSearchForm';
 
-export const Users: React.FC = () => {
+export const Users: React.FC = React.memo(() => {
+	//все компоненты нужно оборачивать в мемо для оптимизации
 	const users = useSelector(getUsers);
 	const setUsersTotalCount = useSelector(getUsersTotalCount);
 	const currentPage = useSelector(getCurrentPage);
 	const pageSize = useSelector(getPageSize);
 	const followingInProgress = useSelector(GetFollowingInProgress);
-
+	const filter = useSelector(getTerm);
 	const dispatch: AppDispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(
-			requestUsers(currentPage, pageSize, '') as unknown as AnyAction
+			requestUsers(currentPage, pageSize, filter) as unknown as AnyAction
 		);
 	}, []);
 
 	const onPageChanged = (pageNumber: number) => {
 		dispatch(
-			requestUsers(pageNumber, pageSize, '') as unknown as AnyAction
+			requestUsers(pageNumber, pageSize, filter) as unknown as AnyAction
 		);
 	};
 
@@ -44,9 +46,7 @@ export const Users: React.FC = () => {
 		dispatch(unfollow(userId) as unknown as AnyAction);
 	};
 	const onFilterChanged = (filter: FilterType) => {
-		dispatch(
-			requestUsers(1, pageSize, filter.term) as unknown as AnyAction
-		);
+		dispatch(requestUsers(1, pageSize, filter) as unknown as AnyAction);
 	};
 
 	return (
@@ -71,4 +71,4 @@ export const Users: React.FC = () => {
 			</div>
 		</div>
 	);
-};
+});
