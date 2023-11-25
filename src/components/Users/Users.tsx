@@ -14,17 +14,18 @@ import {
 import { FilterType, requestUsers } from '../../redux/usersReducer';
 import { AppDispatch } from '../../redux/redux-store';
 import { AnyAction } from 'redux';
-import { Formik } from 'formik';
 import UsersSearchForm from './UsersSearchForm';
+import { UserType } from '../../types/types';
 
 export const Users: React.FC = React.memo(() => {
-	//все компоненты нужно оборачивать в мемо для оптимизации
+	//все компоненты нужно оборачивать в мемо для оптимизации (вместо хока селекторы)
 	const users = useSelector(getUsers);
 	const setUsersTotalCount = useSelector(getUsersTotalCount);
 	const currentPage = useSelector(getCurrentPage);
 	const pageSize = useSelector(getPageSize);
 	const followingInProgress = useSelector(GetFollowingInProgress);
 	const filter = useSelector(getTerm);
+
 	const dispatch: AppDispatch = useDispatch();
 
 	useEffect(() => {
