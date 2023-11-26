@@ -17,10 +17,15 @@ import Home from './components/Home/Home';
 import UsersPage from './components/Users/UsersContainer';
 import { BrowserRouter } from 'react-router-dom';
 import store, { AppStateType } from './redux/redux-store';
+import ChatPage from './pages/Chat/ChatPage';
+
 
 // const DialogsContainer = lazy(() =>
 // 	import('./components/Dialogs/DialogsContainer')
 // );
+const ChatPages = React.lazy(() =>
+	import('./components/Dialogs/DialogsContainer')
+);
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
 	catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
@@ -61,7 +66,9 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
 								/>
 								<Route
 									path="/dialogs"
-									element={<DialogsContainer />}></Route>
+									element={<DialogsContainer />}>
+
+								</Route>
 								<Route path="/home" element={<Home />}></Route>
 								<Route
 									path="/profile"
@@ -75,11 +82,16 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
 									path="/users"
 									element={
 										<UsersPage pageTitle={'Самурай'} />
-									}></Route>
+									}>
+
+								</Route>
 								<Route
 									path="/login"
 									element={<Login />}></Route>
 								<Route path="*" element={<Page404 />}></Route>
+								<Route
+									path="/chat"
+									element={<ChatPage />}></Route>
 							</Routes>
 						</Suspense>
 					</div>
