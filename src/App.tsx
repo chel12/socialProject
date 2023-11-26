@@ -81,10 +81,10 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
 								<Route
 									path="/users"
 									element={
-										<UsersPage pageTitle={'Самурай'} />
-									}>
-
-								</Route>
+										<UsersPage
+											pageTitle={'Пользователи '}
+										/>
+									}></Route>
 								<Route
 									path="/login"
 									element={<Login />}></Route>

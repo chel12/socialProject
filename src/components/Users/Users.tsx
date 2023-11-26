@@ -18,7 +18,7 @@ import UsersSearchForm from './UsersSearchForm';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export const Users: React.FC = React.memo(() => {
-	//все компоненты нужно оборачивать в мемо для оптимизации
+	//все компоненты нужно оборачивать в мемо для оптимизации (вместо хока селекторы)
 	const users = useSelector(getUsers);
 	const setUsersTotalCount = useSelector(getUsersTotalCount);
 	const currentPage = useSelector(getCurrentPage);
