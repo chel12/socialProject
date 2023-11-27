@@ -14,6 +14,7 @@ import authReducer from './authReducer';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 import appReducer from './app-reducer';
+import chatReducer from './chat-reducer';
 
 //соединение редьюсеров и страниц
 let rootReducers = combineReducers({
@@ -23,6 +24,7 @@ let rootReducers = combineReducers({
 	auth: authReducer,
 	form: formReducer,
 	app: appReducer,
+	chat: chatReducer,
 });
 
 //@ts-ignore   за этой строчкой будет игнорироваться тип

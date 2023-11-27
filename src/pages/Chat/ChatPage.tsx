@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	startMessagesListening,
+	stopMessagesListening,
+} from '../../redux/chat-reducer';
+import { AppStateType } from '../../redux/redux-store';
 
 export type ChatMessageType = {
 	//тип того что с сервака приходит
@@ -17,56 +23,23 @@ const ChatPage: React.FC = () => {
 };
 
 const Chat: React.FC = () => {
-	// Так замудренно для того чтобы не было утечки памяти
-	const [ws, setWs] = useState<WebSocket | null>(null);
-
+	const dispatch = useDispatch();
 	useEffect(() => {
-		let wsr: WebSocket;
-		const closeHandler = () => {
-			setTimeout(createChannel, 5000);
-		};
-
-		function createChannel() {
-			wsr?.removeEventListener('close', closeHandler);
-			wsr?.close();
-
-			wsr = new WebSocket(
-				'wss://social-network.samuraijs.com/handlers/ChatHandler.ashx'
-			);
-			wsr?.addEventListener('close', closeHandler);
-			setWs(wsr);
-		}
-		createChannel();
-
+		dispatch(startMessagesListening());
 		return () => {
-			// это как componentDidUnmoant (делает зачистку)
-			wsr.removeEventListener('close', closeHandler);
-			wsr.close(); //закрыть канал
+			dispatch(stopMessagesListening());
 		};
 	}, []);
 
 	return (
 		<div>
-			<Messages ws={ws} />
-			<AddMessageForm ws={ws} />
+			<Messages />
+			<AddMessageForm />
 		</div>
 	);
 };
-const Messages: React.FC<{ ws: WebSocket | null }> = ({ ws }) => {
-	const [messages, setMessages] = useState<ChatMessageType[]>([]);
-	//для синхронизации
-
-	useEffect(() => {
-		let messageHandler = (e: MessageEvent) => {
-			let newMessages = JSON.parse(e.data);
-			setMessages((prevMessages) => [...prevMessages, ...newMessages]); //из события достать обьекты дата
-		};
-		ws?.addEventListener('message', messageHandler);
-
-		return () => {
-			ws?.removeEventListener('message', messageHandler);
-		};
-	}, [ws]);
+const Messages: React.FC<{}> = () => {
+	const messages = useSelector((state: AppStateType) => state.chat.messages);
 
 	return (
 		<div style={{ height: '400px', overflowY: 'auto' }}>
@@ -90,7 +63,7 @@ const Message: React.FC<{ message: ChatMessageType }> = ({ message }) => {
 		</div>
 	);
 };
-const AddMessageForm: React.FC<{ ws: WebSocket | null }> = ({ ws }) => {
+const AddMessageForm: React.FC<{}> = () => {
 	const [message, setMessage] = useState('');
 	const [readyStatus, setReadyStatus] = useState<'pending' | 'ready'>(
 		'pending'
@@ -100,7 +73,7 @@ const AddMessageForm: React.FC<{ ws: WebSocket | null }> = ({ ws }) => {
 		let openHandler = () => {
 			setReadyStatus('ready');
 		};
-		ws?.addEventListener('open', openHandler);
+		ws?.addEventListener('open', openHandler); //подписка на событие
 		return () => {
 			ws?.removeEventListener('open', openHandler);
 		};
