@@ -77,6 +77,7 @@ const newMessageHandlerCreator = (dispatch: Dispatch) => {
 };
 
 export const startMessagesListening = (): ThunkType => async (dispatch) => {
+	chatAPI.start();
 	//чатАПИ я хочу подписаться на твои новые сообщения, поэтому я возьму и подписываюсь
 	//передаю тебе колбек, в который ты передашь мне сообщения и когда ты их передашь, я получу их и отправлю в store
 	chatAPI.subscribe(newMessageHandlerCreator(dispatch));
@@ -86,7 +87,15 @@ export const stopMessagesListening = (): ThunkType => async (dispatch) => {
 	//чатАПИ я хочу подписаться на твои новые сообщения, поэтому я возьму и подписываюсь
 	//передаю тебе колбек, в который ты передашь мне сообщения и когда ты их передашь, я получу их и отправлю в store
 	chatAPI.unsubscribe(newMessageHandlerCreator(dispatch));
+	chatAPI.stop();
 };
+export const sendMessage =
+	(message: string): ThunkType =>
+	async (dispatch) => {
+		//чатАПИ я хочу подписаться на твои новые сообщения, поэтому я возьму и подписываюсь
+		//передаю тебе колбек, в который ты передашь мне сообщения и когда ты их передашь, я получу их и отправлю в store
+		chatAPI.sendMessage(message);
+	};
 
 export default chatReducer;
 

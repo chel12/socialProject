@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import {
+	sendMessage,
 	startMessagesListening,
 	stopMessagesListening,
 } from '../../redux/chat-reducer';
-import { AppStateType } from '../../redux/redux-store';
+import store, { AppStateType } from '../../redux/redux-store';
+
+export type AppDispatch = ThunkDispatch<AppStateType, any, AppAction>;
+type AppAction = ReturnType<typeof store.dispatch>;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+//для диспатча типизация
 
 export type ChatMessageType = {
 	//тип того что с сервака приходит
@@ -23,7 +30,7 @@ const ChatPage: React.FC = () => {
 };
 
 const Chat: React.FC = () => {
-	const dispatch = useDispatch();
+	const dispatch: AppDispatch = useDispatch();
 	useEffect(() => {
 		dispatch(startMessagesListening());
 		return () => {
@@ -68,22 +75,13 @@ const AddMessageForm: React.FC<{}> = () => {
 	const [readyStatus, setReadyStatus] = useState<'pending' | 'ready'>(
 		'pending'
 	);
+	const dispatch: AppDispatch = useDispatch();
 
-	useEffect(() => {
-		let openHandler = () => {
-			setReadyStatus('ready');
-		};
-		ws?.addEventListener('open', openHandler); //подписка на событие
-		return () => {
-			ws?.removeEventListener('open', openHandler);
-		};
-	}, [ws]);
-
-	const sendMessage = () => {
+	const sendMessageHandler = () => {
 		if (!message) {
 			return;
 		} else {
-			ws?.send(message);
+			dispatch(sendMessage(message));
 			setMessage(' ');
 		}
 	};
@@ -95,11 +93,7 @@ const AddMessageForm: React.FC<{}> = () => {
 					value={message}></textarea>
 			</div>
 			<div>
-				<button
-					onClick={sendMessage}
-					disabled={ws === null || readyStatus !== 'ready'}>
-					Send
-				</button>
+				<button onClick={sendMessageHandler}>Send</button>
 			</div>
 		</div>
 	);

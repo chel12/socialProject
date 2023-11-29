@@ -1,6 +1,6 @@
 let subscribers = [] as SubscriberType[];
 //массив подписчиков
-let wsr: WebSocket;
+let wsr: WebSocket | null = null;
 //
 const closeHandler = () => {
 	setTimeout(createChannel, 5000);
@@ -19,11 +19,21 @@ function createChannel() {
 		'wss://social-network.samuraijs.com/handlers/ChatHandler.ashx' //создание веб сокета
 	);
 	wsr?.addEventListener('close', closeHandler);
+	wsr?.addEventListener('message', messageHandler);
 }
 
 //
 
 export const chatAPI = {
+	start() {
+		createChannel();
+	},
+	stop() {
+		subscribers = [];
+		wsr?.removeEventListener('close', closeHandler);
+		wsr?.removeEventListener('message', messageHandler);
+		wsr?.close();
+	},
 	subscribe(callback: SubscriberType) {
 		subscribers.push(callback);
 		return () => {
@@ -36,6 +46,9 @@ export const chatAPI = {
 	//2 способ отписки
 	unsubscribe(callback: SubscriberType) {
 		subscribers = subscribers.filter((s) => s !== callback);
+	},
+	sendMessage(message: string) {
+		wsr?.send(message);
 	},
 }; //делаем подписчика
 
