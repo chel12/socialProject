@@ -1,18 +1,15 @@
-import { stopSubmit } from 'redux-form';
-import { ResultCodesEnum, ResultCodeWithCaptcha } from '../api/api';
-import { authAPI } from '../api/auth-api';
-import { securityAPI } from '../api/security-api';
 import { BaseThunkType, InferActionsTypes } from './redux-store';
 import { ChatMessageType } from '../pages/Chat/ChatPage';
-import { chatAPI } from '../api/chat-api';
+import { chatAPI, StatusType } from '../api/chat-api';
 import { Dispatch } from 'redux';
 
 const MESSAGES_RECEVIED = 'SN/chat/MESSAGES_RECEVIED';
-const GET_CAPTCHA_URL_SUCCESS = 'SN/auth/GET_CAPTCHA_URL_SUCCESS';
+const STATUS_CHANGED = 'SN/chat/STATUS_CHANGED';
 
 //иницилизация state reducer
 let initialState = {
 	messages: [] as ChatMessageType[],
+	status: 'pending' as StatusType,
 };
 
 //Reducer
@@ -29,6 +26,11 @@ const chatReducer = (
 					...action.payload.messages,
 				], // и копируем новые
 			};
+		case STATUS_CHANGED:
+			return {
+				...state,
+				status: action.payload.status,
+			};
 
 		default:
 			return state;
@@ -42,6 +44,11 @@ export const actions = {
 		({
 			type: MESSAGES_RECEVIED,
 			payload: { messages },
+		} as const),
+	statusChanged: (status: StatusType) =>
+		({
+			type: STATUS_CHANGED,
+			payload: { status },
 		} as const),
 };
 
@@ -76,17 +83,37 @@ const newMessageHandlerCreator = (dispatch: Dispatch) => {
 	return _newMessageHandler; //уже возвращаем проинициализированным
 };
 
+//для статуса
+let _statusChangedHandler: ((status: StatusType) => void) | null = null;
+const statusChangedHandlerCreator = (dispatch: Dispatch) => {
+	if (_statusChangedHandler === null) {
+		_statusChangedHandler = (status) => {
+			dispatch(actions.statusChanged(status)); // и теперь благодаря замыканию функция может пользоваться диспатчем
+		};
+	}
+
+	return _newMessageHandler; //уже возвращаем проинициализированным
+};
+
 export const startMessagesListening = (): ThunkType => async (dispatch) => {
 	chatAPI.start();
 	//чатАПИ я хочу подписаться на твои новые сообщения, поэтому я возьму и подписываюсь
 	//передаю тебе колбек, в который ты передашь мне сообщения и когда ты их передашь, я получу их и отправлю в store
-	chatAPI.subscribe(newMessageHandlerCreator(dispatch));
+	chatAPI.subscribe('message-received', newMessageHandlerCreator(dispatch));
+	//@ts-ignore
+	chatAPI.subscribe('status-changed', statusChangedHandlerCreator(dispatch));
 };
 //
 export const stopMessagesListening = (): ThunkType => async (dispatch) => {
 	//чатАПИ я хочу подписаться на твои новые сообщения, поэтому я возьму и подписываюсь
 	//передаю тебе колбек, в который ты передашь мне сообщения и когда ты их передашь, я получу их и отправлю в store
-	chatAPI.unsubscribe(newMessageHandlerCreator(dispatch));
+	chatAPI.unsubscribe('message-received', newMessageHandlerCreator(dispatch));
+	//@ts-ignore
+	chatAPI.unsubscribe(
+		'status-changed',
+		//@ts-ignore
+		statusChangedHandlerCreator(dispatch)
+	);
 	chatAPI.stop();
 };
 export const sendMessage =
