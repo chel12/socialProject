@@ -75,6 +75,7 @@ export const chatAPI = {
 			//отписка
 			//@ts-ignore
 			subscribers[eventName] = subscribers[eventName].filter(
+				//@ts-ignore
 				(s) => s !== callback
 			);
 			//присвоить подписчиков в которых пускаем только тек подписчика который не равен колбеку
@@ -87,6 +88,7 @@ export const chatAPI = {
 	) {
 		//@ts-ignore
 		subscribers[eventName] = subscribers[eventName].filter(
+			//@ts-ignore
 			(s) => s !== callback
 		);
 	},
@@ -96,13 +98,14 @@ export const chatAPI = {
 }; //делаем подписчика
 
 //типы
-type ChatMessageType = {
+export type ChatMessageApiType = {
 	message: string;
 	photo: string;
 	userId: number;
 	userName: string;
+
 };
 
-type MessagesReceivedSubscriberType = (messages: ChatMessageType[]) => void; //подписчик в тип запихали
+type MessagesReceivedSubscriberType = (messages: ChatMessageApiType[]) => void; //подписчик в тип запихали
 type StatusChangedSubscriberType = (status: StatusType) => void; //подписчик в тип запихали
 export type StatusType = 'pending' | 'ready' | 'error';

@@ -1,7 +1,8 @@
 import { BaseThunkType, InferActionsTypes } from './redux-store';
-import { ChatMessageType } from '../pages/Chat/ChatPage';
-import { chatAPI, StatusType } from '../api/chat-api';
+
+import { chatAPI, ChatMessageApiType, StatusType } from '../api/chat-api';
 import { Dispatch } from 'redux';
+import { v1 as uuidv1, v1 } from 'uuid';
 
 const MESSAGES_RECEVIED = 'SN/chat/MESSAGES_RECEVIED';
 const STATUS_CHANGED = 'SN/chat/STATUS_CHANGED';
@@ -22,9 +23,9 @@ const chatReducer = (
 			return {
 				...state, //копируем старый стейт
 				messages: [
-					...state.messages /*забираем старые*/,
-					...action.payload.messages,
-				], // и копируем новые
+					...state.messages ,
+					...action.payload.messages.map(m => ({ ...m, id: v1() })), //v1 добавили уникальный ID от uuid
+				].filter((m, index, array) => index >= array.length - 100), // и копируем новые (с условием сортировки) //но рендер всего будет
 			};
 		case STATUS_CHANGED:
 			return {
@@ -99,6 +100,7 @@ export const startMessagesListening = (): ThunkType => async (dispatch) => {
 	chatAPI.start();
 	//чатАПИ я хочу подписаться на твои новые сообщения, поэтому я возьму и подписываюсь
 	//передаю тебе колбек, в который ты передашь мне сообщения и когда ты их передашь, я получу их и отправлю в store
+	//@ts-ignore
 	chatAPI.subscribe('message-received', newMessageHandlerCreator(dispatch));
 	//@ts-ignore
 	chatAPI.subscribe('status-changed', statusChangedHandlerCreator(dispatch));
@@ -107,6 +109,7 @@ export const startMessagesListening = (): ThunkType => async (dispatch) => {
 export const stopMessagesListening = (): ThunkType => async (dispatch) => {
 	//чатАПИ я хочу подписаться на твои новые сообщения, поэтому я возьму и подписываюсь
 	//передаю тебе колбек, в который ты передашь мне сообщения и когда ты их передашь, я получу их и отправлю в store
+	//@ts-ignore
 	chatAPI.unsubscribe('message-received', newMessageHandlerCreator(dispatch));
 	//@ts-ignore
 	chatAPI.unsubscribe(
@@ -135,3 +138,5 @@ type ActionsType = InferActionsTypes<typeof actions>;
 
 //Типы для санок
 type ThunkType = BaseThunkType<ActionsType>;
+
+type ChatMessageType = ChatMessageApiType & { id: string }; //контагенация типа + добавка значения
